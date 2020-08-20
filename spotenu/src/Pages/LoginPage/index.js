@@ -44,8 +44,7 @@ const LoginPage = () => {
 
   const submitLogin = async (event) => {
     event.preventDefault();
-    const device = `${navigator.platform}.${navigator.appCodeName}`;
-    const body = { ...form, device };
+    const body = form;
     try {
       const response = await login(body);
       console.log(response);

@@ -9,12 +9,10 @@ import {
 } from '@material-ui/icons';
 
 export const CreateBandPageContainer = styled.form`
-  margin: 0 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 2rem 1rem;
   grid-row: 2 / span 1;
-  /* margin-top: 4rem; */
+  display: grid;
+  place-items: center;
   > div {
     width: 100%;
     display: flex;

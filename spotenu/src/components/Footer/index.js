@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
 
+import FooterPremium from './components/FooterPremium';
+
 import { ProfileContext } from '../../contexts';
 
 import {
@@ -30,6 +32,8 @@ const Footer = () => {
             <FooterAlbum color={(currentPage === '/album/band') ? 'primary' : 'secondary'} />
           </FooterButton>
         )
+      case 'PREMIUM':
+        return <FooterPremium />
       default :
         return (
           <FooterButton size='large' onClick={() => history.push('/search')} >
@@ -42,15 +46,7 @@ const Footer = () => {
   return (
     <FooterContainer>
       {profile ?
-      <div>
-        <FooterButton size='large' onClick={() => history.push('/home')} >
-          <FooterHome color={(currentPage === '/home') ? 'primary' : 'secondary'} />
-        </FooterButton>
-        {profileFooter()}
-        <FooterButton size='large' onClick={() => history.push('/profile')} >
-          <FooterProfile color={(currentPage === '/profile') ? 'primary' : 'secondary'} />
-        </FooterButton> 
-      </div>
+        profileFooter()
       : <></>}
     </FooterContainer>
   );

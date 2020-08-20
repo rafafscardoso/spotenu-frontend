@@ -12,13 +12,12 @@ import {
 } from '@material-ui/icons';
 
 export const HomePageContainer = styled.div`
-  margin: 0 1rem;
-  min-height: 100%;
+  padding: 1rem;
+  /* min-height: 100%; */
+  grid-row: 2 / span 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  grid-row: 2 / span 1;
-  /* margin-top: 4rem; */
 `
 export const HomeList = styled(List)`
 `

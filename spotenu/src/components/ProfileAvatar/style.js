@@ -1,5 +1,13 @@
 import styled from 'styled-components';
-import {} from '@material-ui/core';
+import {
+  Avatar,
+  Drawer
+} from '@material-ui/core';
 
 export const ProfileAvatarContainer = styled.div`
+`
+export const ProfileAvatarAvatar = styled(Avatar)`
+  cursor: pointer;
+`
+export const ProfileAvatarDrawer = styled(Drawer)`
 `

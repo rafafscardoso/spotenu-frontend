@@ -1,28 +1,34 @@
 import styled from 'styled-components';
 import {
+  BottomNavigation,
+  BottomNavigationAction,
   Button
 } from '@material-ui/core';
 import {
   HomeOutlined,
   PersonOutlined,
   SearchOutlined,
-  AlbumOutlined
+  AlbumOutlined,
+  LibraryMusicOutlined
 } from '@material-ui/icons';
 
 export const FooterContainer = styled.footer`
   position: fixed;
   bottom: 0;
-  margin: 0 1rem;
+  grid-row: 1 / span 1;
+  grid-column: 3 / span 1;
   height: 4rem;
   width: 100%;
-  max-width: 388px;
   > div {
     height: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border-top: 1px solid #a8bac5;
   }
+`
+export const FooterBottomNavigation = styled(BottomNavigation)`
+`
+export const FooterBottomNavigationAction = styled(BottomNavigationAction)`
 `
 export const FooterButton = styled(Button)`
   && {
@@ -31,22 +37,12 @@ export const FooterButton = styled(Button)`
   }
 `
 export const FooterHome = styled(HomeOutlined)`
-  && {
-    font-size: 2rem;
-  }
 `
 export const FooterProfile = styled(PersonOutlined)`
-  && {
-    font-size: 2rem;
-  }
 `
 export const FooterSearch = styled(SearchOutlined)`
-  && {
-    font-size: 2rem;
-  }
 `
 export const FooterAlbum = styled(AlbumOutlined)`
-  && {
-    font-size: 2rem;
-  }
+`
+export const FooterPlaylist = styled(LibraryMusicOutlined)`
 `

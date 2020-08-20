@@ -14,7 +14,6 @@ import CreateSongPage from '../Pages/CreateSongPage';
 import CreatePlaylistPage from '../Pages/CreatePlaylistPage';
 import UpdateToPremiumPage from '../Pages/UpdateToPremiumPage';
 import SearchPage from '../Pages/SearchPage';
-import ProfilePage from '../Pages/ProfilePage';
 import BandAlbumsPage from '../Pages/BandAlbumsPage';
 import AlbumPage from '../Pages/AlbumPage';
 
@@ -35,7 +34,6 @@ const Router = () => {
         <Route exact path='/create/playlist' component={CreatePlaylistPage} />
         <Route exact path='/update' component={UpdateToPremiumPage} />
         <Route exact path='/search' component={SearchPage} />
-        <Route exact path='/profile' component={ProfilePage} />
         <Route exact path='/album/band' component={BandAlbumsPage} />
         <Route exact path='/album/:albumId' component={AlbumPage} />
       </Switch>

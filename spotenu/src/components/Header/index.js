@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router';
 
 import ProfileAvatar from '../ProfileAvatar';
 
+import { ProfileContext } from '../../contexts';
+
 import {
   HeaderContainer,
-  HeaderArrowBack
+  HeaderArrowBack,
+  HeaderDivider
 } from './style';
 
 const Header = () => {
@@ -14,7 +17,7 @@ const Header = () => {
 
   const [hasBackButton, setHasBackButton] = useState(true);
 
-  const token = window.localStorage.getItem('accessToken');
+  const { profile } = useContext(ProfileContext);
 
   useEffect(() => {
     const location = history.location.pathname;
@@ -34,7 +37,12 @@ const Header = () => {
         : <></>}
       </div>
       <div>
-        {token ? <ProfileAvatar /> : <></>}
+        logo
+      </div>
+      <div>
+        {profile ? 
+          <ProfileAvatar />
+        : <></>}
       </div>
     </HeaderContainer>
   );

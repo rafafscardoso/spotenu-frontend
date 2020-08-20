@@ -1,5 +1,3 @@
 import styled from 'styled-components';
 import {} from '@material-ui/core';
-
-export const ProfilePageContainer = styled.div`
-`
+import {} from '@material-ui/icons';
