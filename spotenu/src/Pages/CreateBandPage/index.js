@@ -4,21 +4,21 @@ import { useHistory } from 'react-router';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
-import { usePublicPage, useForm, } from '../../hooks';
+import { usePublicPage, useForm } from '../../hooks';
 import { createBand } from '../../request';
 import { 
   PageContainer, 
   FormFormControl,
   FormTextField,
-  FormButton
+  FormButton,
+  FormInputAdornment,
+  FormIconButton
 } from '../../style';
 
 import {
   CreateBandPageContainer,
-  CreateBandInputAdornment,
-  CreateBandIconButton,
-  CreateBandVisibilityOn,
-  CreateBandVisibilityOff
+  VisibilityOnIcon,
+  VisibilityOffIcon
 } from './style';
 
 const CreateBandPage = () => {
@@ -50,19 +50,18 @@ const CreateBandPage = () => {
 
   const submitCreateBand = async (event) => {
     event.preventDefault();
-    const device = `${navigator.platform}.${navigator.appCodeName}`;
     if (password !== confirmPassword) {
       setIsPasswordConfirmed(false);
       return;
     }
-    const body = { name, nickname, email, password, description, device };
+    const body = { name, nickname, email, password, description };
     try {
       const response = await createBand(body);
       console.log(response);
       resetForm();
       window.alert('Banda criada com sucesso, aguardando aprovação');
     } catch (error) {
-      console.error(error);
+      console.error(error.response);
     }
   }
 
@@ -139,11 +138,11 @@ const CreateBandPage = () => {
               }}
               InputProps={{
                 endAdornment: (
-                  <CreateBandInputAdornment position='end' >
-                    <CreateBandIconButton onClick={() => setShowPassword(!showPassword)} >
-                      {showPassword ? <CreateBandVisibilityOn color='secondary' /> : <CreateBandVisibilityOff color='secondary' />}
-                    </CreateBandIconButton>
-                  </CreateBandInputAdornment>
+                  <FormInputAdornment position='end' >
+                    <FormIconButton onClick={() => setShowPassword(!showPassword)} >
+                      {showPassword ? <VisibilityOnIcon color='secondary' /> : <VisibilityOffIcon color='secondary' />}
+                    </FormIconButton>
+                  </FormInputAdornment>
                 )
               }}
             />
@@ -166,11 +165,11 @@ const CreateBandPage = () => {
               }}
               InputProps={{
                 endAdornment: (
-                  <CreateBandInputAdornment position='end' >
-                    <CreateBandIconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)} >
-                      {showConfirmPassword ? <CreateBandVisibilityOn color='secondary' /> : <CreateBandVisibilityOff color='secondary' />}
-                    </CreateBandIconButton>
-                  </CreateBandInputAdornment>
+                  <FormInputAdornment position='end' >
+                    <FormIconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)} >
+                      {showConfirmPassword ? <VisibilityOnIcon color='secondary' /> : <VisibilityOffIcon color='secondary' />}
+                    </FormIconButton>
+                  </FormInputAdornment>
                 )
               }}
             />

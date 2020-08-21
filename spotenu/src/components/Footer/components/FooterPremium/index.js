@@ -11,9 +11,9 @@ import {
 
 const FooterPremium = () => {
 
-  const [currentPage, setCurrentPage] = useState('/home');
-
   const history = useHistory();
+
+  const [currentPage, setCurrentPage] = useState(history.location.pathname);
 
   const handleChange = (event, newValue) => {
     setCurrentPage(newValue);

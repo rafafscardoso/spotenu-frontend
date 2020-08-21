@@ -7,15 +7,16 @@ import { editProfile } from '../../request';
 import {
   FormFormControl,
   FormTextField,
-  FormButton
+  FormButton,
+  FormInputAdornment,
+  FormIconButton
 } from '../../style';
 
 import {
   ProfileDrawerContainer,
-  ProfileDrawerInputAdornment,
-  ProfileDrawerIconButton,
-  ProfileDrawerConfirm,
-  ProfileDrawerCancel
+  ProfileDrawerAvatar,
+  ConfirmIcon,
+  CancelIcon
 } from './style';
 
 const ProfileDrawer = () => {
@@ -64,14 +65,14 @@ const ProfileDrawer = () => {
             required
             InputProps={{
               endAdornment: (
-                <ProfileDrawerInputAdornment>
-                  <ProfileDrawerIconButton onClick={resetForm} >
-                    <ProfileDrawerCancel color='secondary' />
-                  </ProfileDrawerIconButton>
-                  <ProfileDrawerIconButton onClick={submitEditProfile} >
-                    <ProfileDrawerConfirm color='secondary' />
-                  </ProfileDrawerIconButton>
-                </ProfileDrawerInputAdornment>
+                <FormInputAdornment>
+                  <FormIconButton onClick={resetForm} >
+                    <CancelIcon color='secondary' />
+                  </FormIconButton>
+                  <FormIconButton onClick={submitEditProfile} >
+                    <ConfirmIcon color='secondary' />
+                  </FormIconButton>
+                </FormInputAdornment>
               )
             }}
           />

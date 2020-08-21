@@ -10,15 +10,15 @@ import {
   PageContainer, 
   FormFormControl,
   FormTextField,
-  FormButton
+  FormButton,
+  FormInputAdornment,
+  FormIconButton
 } from '../../style';
 
 import {
   LoginPageContainer,
-  LoginInputAdornment,
-  LoginIconButton,
-  LoginVisibilityOn,
-  LoginVisibilityOff
+  VisibilityOnIcon,
+  VisibilityOffIcon
 } from './style';
 
 const LoginPage = () => {
@@ -51,7 +51,7 @@ const LoginPage = () => {
       resetForm();
       history.push('/home');
     } catch (error) {
-      console.error(error);
+      console.error(error.response);
     }
   }
 
@@ -84,11 +84,11 @@ const LoginPage = () => {
               required
               InputProps={{
                 endAdornment: (
-                  <LoginInputAdornment position='end' >
-                    <LoginIconButton onClick={() => setShowPassword(!showPassword)} >
-                      {showPassword ? <LoginVisibilityOn color='secondary' /> : <LoginVisibilityOff color='secondary' />}
-                    </LoginIconButton>
-                  </LoginInputAdornment>
+                  <FormInputAdornment position='end' >
+                    <FormIconButton onClick={() => setShowPassword(!showPassword)} >
+                      {showPassword ? <VisibilityOnIcon color='secondary' /> : <VisibilityOffIcon color='secondary' />}
+                    </FormIconButton>
+                  </FormInputAdornment>
                 )
               }}
             />

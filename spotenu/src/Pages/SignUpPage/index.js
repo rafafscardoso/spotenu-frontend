@@ -4,21 +4,21 @@ import { useHistory } from 'react-router';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
-import { usePublicPage, useForm, } from '../../hooks';
+import { usePublicPage, useForm } from '../../hooks';
 import { signUp } from '../../request';
 import { 
   PageContainer, 
   FormFormControl,
   FormTextField,
-  FormButton
+  FormButton,
+  FormInputAdornment,
+  FormIconButton
 } from '../../style';
 
 import {
   SignUpPageContainer,
-  SignUpInputAdornment,
-  SignUpIconButton,
-  SignUpVisibilityOn,
-  SignUpVisibilityOff
+  VisibilityOnIcon,
+  VisibilityOffIcon
 } from './style';
 
 const SignUpPage = () => {
@@ -49,19 +49,18 @@ const SignUpPage = () => {
 
   const submitSignUp = async (event) => {
     event.preventDefault();
-    const device = `${navigator.platform}.${navigator.appCodeName}`;
     if (password !== confirmPassword) {
       setIsPasswordConfirmed(false);
       return;
     }
-    const body = { name, nickname, email, password, device };
+    const body = { name, nickname, email, password };
     try {
       const response = await signUp(body);
       console.log(response);
       resetForm();
       history.push('/home');
     } catch (error) {
-      console.error(error);
+      console.error(error.response);
     }
   }
 
@@ -126,11 +125,11 @@ const SignUpPage = () => {
               }}
               InputProps={{
                 endAdornment: (
-                  <SignUpInputAdornment position='end' >
-                    <SignUpIconButton onClick={() => setShowPassword(!showPassword)} >
-                      {showPassword ? <SignUpVisibilityOn color='secondary' /> : <SignUpVisibilityOff color='secondary' />}
-                    </SignUpIconButton>
-                  </SignUpInputAdornment>
+                  <FormInputAdornment position='end' >
+                    <FormIconButton onClick={() => setShowPassword(!showPassword)} >
+                      {showPassword ? <VisibilityOnIcon color='secondary' /> : <VisibilityOffIcon color='secondary' />}
+                    </FormIconButton>
+                  </FormInputAdornment>
                 )
               }}
             />
@@ -153,11 +152,11 @@ const SignUpPage = () => {
               }}
               InputProps={{
                 endAdornment: (
-                  <SignUpInputAdornment position='end' >
-                    <SignUpIconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)} >
-                      {showConfirmPassword ? <SignUpVisibilityOn color='secondary' /> : <SignUpVisibilityOff color='secondary' />}
-                    </SignUpIconButton>
-                  </SignUpInputAdornment>
+                  <FormInputAdornment position='end' >
+                    <FormIconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)} >
+                      {showConfirmPassword ? <VisibilityOnIcon color='secondary' /> : <VisibilityOffIcon color='secondary' />}
+                    </FormIconButton>
+                  </FormInputAdornment>
                 )
               }}
             />

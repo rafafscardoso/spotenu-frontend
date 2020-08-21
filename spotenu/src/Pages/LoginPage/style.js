@@ -1,15 +1,12 @@
 import styled from 'styled-components';
-import {
-  InputAdornment,
-  IconButton
-} from '@material-ui/core';
+import {} from '@material-ui/core';
 import {
   Visibility,
   VisibilityOff
 } from '@material-ui/icons';
 
 export const LoginPageContainer = styled.form`
-  margin: 1rem;
+  padding: 1rem;
   grid-row: 2 / span 1;
   display: grid;
   place-items: center;
@@ -35,11 +32,7 @@ export const LoginPageContainer = styled.form`
     }
   }
 `
-export const LoginInputAdornment = styled(InputAdornment)`
+export const VisibilityOnIcon = styled(Visibility)`
 `
-export const LoginIconButton = styled(IconButton)`
-`
-export const LoginVisibilityOn = styled(Visibility)`
-`
-export const LoginVisibilityOff = styled(VisibilityOff)`
+export const VisibilityOffIcon = styled(VisibilityOff)`
 `

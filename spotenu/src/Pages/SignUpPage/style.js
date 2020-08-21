@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-import {
-  InputAdornment,
-  IconButton
-} from '@material-ui/core';
+import {} from '@material-ui/core';
 import {
   Visibility,
   VisibilityOff
@@ -35,11 +32,7 @@ export const SignUpPageContainer = styled.form`
     }
   }
 `
-export const SignUpInputAdornment = styled(InputAdornment)`
+export const VisibilityOnIcon = styled(Visibility)`
 `
-export const SignUpIconButton = styled(IconButton)`
-`
-export const SignUpVisibilityOn = styled(Visibility)`
-`
-export const SignUpVisibilityOff = styled(VisibilityOff)`
+export const VisibilityOffIcon = styled(VisibilityOff)`
 `

@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-import {
-  InputAdornment,
-  IconButton
-} from '@material-ui/core';
+import {} from '@material-ui/core';
 import {
   Visibility,
   VisibilityOff
@@ -35,11 +32,7 @@ export const CreateBandPageContainer = styled.form`
     }
   }
 `
-export const CreateBandInputAdornment = styled(InputAdornment)`
+export const VisibilityOnIcon = styled(Visibility)`
 `
-export const CreateBandIconButton = styled(IconButton)`
-`
-export const CreateBandVisibilityOn = styled(Visibility)`
-`
-export const CreateBandVisibilityOff = styled(VisibilityOff)`
+export const VisibilityOffIcon = styled(VisibilityOff)`
 `

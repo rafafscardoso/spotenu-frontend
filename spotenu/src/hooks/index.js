@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { getProfile } from '../request';
+
 export const useForm = (InitialValues) => {
 
   const [form, setForm] = useState(InitialValues);
@@ -17,14 +19,24 @@ export const useForm = (InitialValues) => {
   return { form, onChange, resetForm };
 };
 
-export const usePrivatePage = () => {
+export const usePrivatePage = (setProfile) => {
 
   const history = useHistory();
 
-  useEffect(() => {
-    const accessToken = window.localStorage.getItem('token');
+  const goToGetProfile = async () => {
+    try {
+      const result = await getProfile();
+      setProfile(result);
+    } catch (error) {
+      console.error(error.response);
+    }
+  }
 
-    if (!accessToken) {
+  useEffect(() => {
+    goToGetProfile();
+    const token = window.localStorage.getItem('token');
+
+    if (!token) {
       history.push('/login');
     } 
   }, [history]);
@@ -35,9 +47,9 @@ export const usePublicPage = () => {
   const history = useHistory();
 
   useEffect(() => {
-    const accessToken = window.localStorage.getItem('token');
+    const token = window.localStorage.getItem('token');
 
-    if (accessToken) {
+    if (token) {
       history.push('/home');
     } 
   }, [history]);

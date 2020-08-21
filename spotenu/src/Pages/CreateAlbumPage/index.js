@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
-import { usePublicPage, useForm, } from '../../hooks';
+import { usePublicPage, useForm } from '../../hooks';
+import { ProfileContext } from '../../contexts';
 import { createAlbum } from '../../request';
 import { 
   PageContainer, 
@@ -19,7 +20,9 @@ import {
 
 const CreateAlbumPage = () => {
 
-  usePublicPage();
+  const { profile, setProfile } = useContext(ProfileContext);
+
+  usePublicPage(setProfile);
 
   const history = useHistory();
 
@@ -33,7 +36,6 @@ const CreateAlbumPage = () => {
 
   const submitCreateAlbum = async (event) => {
     event.preventDefault();
-    const device = `${navigator.platform}.${navigator.appCodeName}`;
     const body = {  };
     try {
       const response = await createAlbum(body);

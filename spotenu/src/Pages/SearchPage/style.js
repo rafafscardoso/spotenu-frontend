@@ -7,6 +7,7 @@ import {
 
 export const SearchPageContainer = styled.div`
   padding: 1rem;
+  grid-row: 2 / span 1;
   display: flex;
   flex-direction: column;
 `

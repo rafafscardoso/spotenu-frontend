@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import {
-  InputAdornment,
-  IconButton
+  Avatar
 } from '@material-ui/core';
 import {
   CheckCircle,
@@ -9,12 +8,15 @@ import {
 } from '@material-ui/icons';
 
 export const ProfileDrawerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1rem;
 `
-export const ProfileDrawerInputAdornment = styled(InputAdornment)`
+export const ProfileDrawerAvatar = styled(Avatar)`
+  cursor: pointer;
 `
-export const ProfileDrawerIconButton = styled(IconButton)`
+export const ConfirmIcon = styled(CheckCircle)`
 `
-export const ProfileDrawerConfirm = styled(CheckCircle)`
-`
-export const ProfileDrawerCancel = styled(Cancel)`
+export const CancelIcon = styled(Cancel)`
 `
