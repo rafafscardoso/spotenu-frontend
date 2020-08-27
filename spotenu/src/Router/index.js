@@ -12,7 +12,7 @@ import MusicGenrePage from '../Pages/MusicGenrePage';
 import CreateAlbumPage from '../Pages/CreateAlbumPage';
 import CreateSongPage from '../Pages/CreateSongPage';
 import CreatePlaylistPage from '../Pages/CreatePlaylistPage';
-import UpdateToPremiumPage from '../Pages/UpdateToPremiumPage';
+import UpgradeToPremiumPage from '../Pages/UpgradeToPremiumPage';
 import SearchPage from '../Pages/SearchPage';
 import BandAlbumsPage from '../Pages/BandAlbumsPage';
 import AlbumPage from '../Pages/AlbumPage';
@@ -32,7 +32,7 @@ const Router = () => {
         <Route exact path='/create/album' component={CreateAlbumPage} />
         <Route exact path='/create/song' component={CreateSongPage} />
         <Route exact path='/create/playlist' component={CreatePlaylistPage} />
-        <Route exact path='/update' component={UpdateToPremiumPage} />
+        <Route exact path='/upgrade' component={UpgradeToPremiumPage} />
         <Route exact path='/search' component={SearchPage} />
         <Route exact path='/album/band' component={BandAlbumsPage} />
         <Route exact path='/album/:albumId' component={AlbumPage} />

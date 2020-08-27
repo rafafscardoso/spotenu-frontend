@@ -6,7 +6,7 @@ import {
   HomeListItem,
   HomeListItemIcon,
   HomeListItemText,
-  HomeSearch
+  SearchIcon
 } from '../../style';
 
 import {
@@ -22,7 +22,7 @@ const HomeFree = () => {
     <HomeList>
       <HomeListItem button onClick={() => history.push('/search')} >
         <HomeListItemIcon>
-          <HomeSearch color='secondary' />
+          <SearchIcon color='secondary' />
         </HomeListItemIcon>
         <HomeListItemText primary='Busca' />
       </HomeListItem>

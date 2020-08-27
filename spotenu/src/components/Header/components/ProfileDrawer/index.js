@@ -1,16 +1,16 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router';
 
-import { useForm } from '../../hooks';
-import { ProfileContext } from '../../contexts';
-import { editProfile } from '../../request';
+import { useForm } from '../../../../hooks';
+import { ProfileContext } from '../../../../contexts';
+import { editProfile } from '../../../../request';
 import {
   FormFormControl,
   FormTextField,
   FormButton,
   FormInputAdornment,
   FormIconButton
-} from '../../style';
+} from '../../../../style';
 
 import {
   ProfileDrawerContainer,
@@ -21,7 +21,7 @@ import {
 
 const ProfileDrawer = () => {
 
-  const { profile } = useContext(ProfileContext);
+  const { profile, setProfile } = useContext(ProfileContext);
 
   const { form, onChange, resetForm } = useForm({
     name: profile.name
@@ -45,6 +45,7 @@ const ProfileDrawer = () => {
 
   const logOut = () => {
     window.localStorage.clear();
+    setProfile(undefined);
     history.push('/login');
   }
 

@@ -14,9 +14,8 @@ export const LoginPageContainer = styled.form`
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    color: #f6af56;
     > p {
+      color: #f6af56;
       align-self: flex-end;
       margin: 1rem 0 0 0;
       font-size: .75rem;

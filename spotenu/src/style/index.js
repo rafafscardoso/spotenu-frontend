@@ -13,8 +13,8 @@ export const PageContainer = styled.div`
   width: 100%;
   max-width: 420px;
   margin: 0 auto;
-  background-color: #45525b;
-  color: #a8bac5;
+  /* background-color: #45525b;
+  color: #a8bac5; */
   display: grid;
   grid-template-rows: 4rem 1fr 4rem;
   grid-template-columns: 1fr;

@@ -40,7 +40,8 @@ export const getAllBands = async () => {
 export const approveBand = async (bandId) => {
   const authorization = window.localStorage.getItem('token');
   const headers = { authorization };
-  const response = await axios.put(`${baseUrl}/user/approve/${bandId}`, { headers });
+  console.log(headers.authorization)
+  const response = await axios.put(`${baseUrl}/user/approve/${bandId}`, {}, { headers });
   return response.data;
 }
 
@@ -107,10 +108,10 @@ export const getSongById = async (songId) => {
   return response.data;
 }
 
-export const updateToPremium = async (userId) => {
+export const upgradeToPremium = async (userId) => {
   const authorization = window.localStorage.getItem('token');
   const headers = { authorization };
-  const response = await axios.put(`${baseUrl}/user/update/${userId}`, { headers });
+  const response = await axios.put(`${baseUrl}/user/upgrade/${userId}`, {}, { headers });
   return response.data;
 }
 
@@ -128,10 +129,10 @@ export const addSongToPlaylist = async (body) => {
   return response.data;
 }
 
-export const removeSongFromPlaylist = async (body) => {
+export const removeSongFromPlaylist = async (id, songId) => {
   const authorization = window.localStorage.getItem('token');
   const headers = { authorization };
-  const response = await axios.delete(`${baseUrl}/music/playlist/song`, body, { headers });
+  const response = await axios.delete(`${baseUrl}/music/playlist/${id}/song/${songId}`, { headers });
   return response.data;
 }
 
@@ -145,7 +146,7 @@ export const getAllPlaylistsByUser = async (page) => {
 export const publishPlaylist = async (playlistId) => {
   const authorization = window.localStorage.getItem('token');
   const headers = { authorization };
-  const response = await axios.put(`${baseUrl}/music/playlis/publish/${playlistId}`, { headers });
+  const response = await axios.put(`${baseUrl}/music/playlis/publish/${playlistId}`, {}, { headers });
   return response.data;
 }
 
@@ -187,7 +188,13 @@ export const getProfile = async () => {
 export const getAlbumsByBand = async () => {
   const authorization = window.localStorage.getItem('token');
   const headers = { authorization };
-  console.log(headers)
   const response = await axios.get(`${baseUrl}/music/album/band/all`, { headers });
+  return response.data;
+}
+
+export const getAllListeners = async () => {
+  const authorization = window.localStorage.getItem('token');
+  const headers = { authorization };
+  const response = await axios.get(`${baseUrl}/user/listeners/all`, { headers });
   return response.data;
 }

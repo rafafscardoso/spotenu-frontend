@@ -23,17 +23,14 @@ export const usePrivatePage = (setProfile) => {
 
   const history = useHistory();
 
-  const goToGetProfile = async () => {
-    try {
-      const result = await getProfile();
-      setProfile(result);
-    } catch (error) {
-      console.error(error.response);
-    }
-  }
-
   useEffect(() => {
-    goToGetProfile();
+    getProfile()
+      .then(response => {
+        setProfile(response);
+      })
+      .catch(error => {
+        console.error(error.response);
+      });
     const token = window.localStorage.getItem('token');
 
     if (!token) {

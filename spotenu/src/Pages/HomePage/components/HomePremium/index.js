@@ -7,8 +7,8 @@ import {
   HomeListItemIcon,
   HomeListItemText,
   HomeDivider,
-  HomeSearch,
-  HomeLibraryMusic
+  SearchIcon,
+  PlaylistIcon
 } from '../../style';
 
 import {
@@ -24,14 +24,14 @@ const HomePremium = () => {
       <HomeList>
         <HomeListItem button onClick={() => history.push('/search')} >
           <HomeListItemIcon>
-            <HomeSearch color='secondary' />
+            <SearchIcon color='secondary' />
           </HomeListItemIcon>
           <HomeListItemText primary='Busca' />
         </HomeListItem>
         <HomeDivider />
         <HomeListItem button >
           <HomeListItemIcon>
-            <HomeLibraryMusic color='secondary' />
+            <PlaylistIcon color='secondary' />
           </HomeListItemIcon>
           <HomeListItemText primary='Playlists' />
         </HomeListItem>

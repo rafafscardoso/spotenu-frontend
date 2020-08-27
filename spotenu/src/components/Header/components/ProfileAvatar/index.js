@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 
 import ProfileDrawer from '../ProfileDrawer';
 
-import { ProfileContext } from '../../contexts';
+import { ProfileContext } from '../../../../contexts';
 
 import {
   ProfileAvatarContainer,

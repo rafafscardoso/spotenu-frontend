@@ -9,7 +9,11 @@ import {
   PersonOutlined,
   SearchOutlined,
   AlbumOutlined,
-  LibraryMusicOutlined
+  LibraryMusicOutlined,
+  MusicNoteOutlined,
+  SupervisorAccountOutlined,
+  PaymentOutlined,
+  ThumbUpOutlined
 } from '@material-ui/icons';
 
 export const FooterContainer = styled.footer`
@@ -19,22 +23,13 @@ export const FooterContainer = styled.footer`
   grid-column: 3 / span 1;
   height: 4rem;
   width: 100%;
-  > div {
-    height: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
 `
 export const FooterBottomNavigation = styled(BottomNavigation)`
+  && {
+    height: 100%
+  }
 `
 export const FooterBottomNavigationAction = styled(BottomNavigationAction)`
-`
-export const FooterButton = styled(Button)`
-  && {
-    width: 30%;
-    height: 90%;
-  }
 `
 export const FooterHome = styled(HomeOutlined)`
 `
@@ -45,4 +40,12 @@ export const FooterSearch = styled(SearchOutlined)`
 export const FooterAlbum = styled(AlbumOutlined)`
 `
 export const FooterPlaylist = styled(LibraryMusicOutlined)`
+`
+export const FooterMusic = styled(MusicNoteOutlined)`
+`
+export const FooterCreateAdmin = styled(SupervisorAccountOutlined)`
+`
+export const FooterUpdate = styled(PaymentOutlined)`
+`
+export const FooterApproveBand = styled(ThumbUpOutlined)`
 `

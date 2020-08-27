@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router';
 
-import ProfileAvatar from '../ProfileAvatar';
+import ProfileAvatar from './components/ProfileAvatar';
 
 import { ProfileContext } from '../../contexts';
 
@@ -29,17 +29,17 @@ const Header = () => {
   return (
     <HeaderContainer>
       <div>
-        {hasBackButton ? 
-          <HeaderArrowBack 
-            color='primary' 
-            onClick={() => history.goBack()}
-          />
-        : <></>}
-      </div>
-      <div>
-        logo
-      </div>
-      <div>
+        <div>
+          {hasBackButton ? 
+            <HeaderArrowBack 
+              color='primary' 
+              onClick={() => history.goBack()}
+            />
+          : <></>}
+        </div>
+        <div>
+          logo
+        </div>
         {profile ? 
           <ProfileAvatar />
         : <></>}

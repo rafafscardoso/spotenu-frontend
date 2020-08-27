@@ -8,7 +8,11 @@ import {
 } from '@material-ui/core';
 import {
   Search,
-  LibraryMusic
+  LibraryMusic,
+  MusicNote,
+  SupervisorAccount,
+  ThumbUp,
+  Payment
 } from '@material-ui/icons';
 
 export const HomePageContainer = styled.div`
@@ -29,7 +33,15 @@ export const HomeListItemText = styled(ListItemText)`
 `
 export const HomeDivider = styled(Divider)`
 `
-export const HomeSearch = styled(Search)`
+export const SearchIcon = styled(Search)`
 `
-export const HomeLibraryMusic = styled(LibraryMusic)`
+export const PlaylistIcon = styled(LibraryMusic)`
+`
+export const MusicIcon = styled(MusicNote)`
+`
+export const AdminIcon = styled(SupervisorAccount)`
+`
+export const ApproveIcon = styled(ThumbUp)`
+`
+export const UpdateIcon = styled(Payment)`
 `

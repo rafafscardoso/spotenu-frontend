@@ -6,7 +6,7 @@ import {
 } from '@material-ui/icons';
 
 export const SignUpPageContainer = styled.form`
-  margin: 2rem 1rem;
+  padding: 1rem;
   grid-row: 2 / span 1;
   display: grid;
   place-items: center;
@@ -14,8 +14,6 @@ export const SignUpPageContainer = styled.form`
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    color: #f6af56;
     > p {
       align-self: flex-end;
       margin: 1rem 0 0 0;
