@@ -10,14 +10,14 @@ import {
   PageContainer,
   FormFormControl,
   FormTextField,
-  FormButton
+  FormButton,
+  PageList,
+  PageListItem,
+  PageListItemText
 } from '../../style';
 
 import {
-  MusicGenrePageContainer,
-  MusicGenreList,
-  MusicGenreListItem,
-  MusicGenreListItemText
+  MusicGenrePageContainer
 } from './style';
 
 const MusicGenrePage = () => {
@@ -41,7 +41,7 @@ const MusicGenrePage = () => {
       .catch(error => {
         console.error(error.response);
       });
-  }, [update]);
+  }, [setMusicGenres, update]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -90,16 +90,16 @@ const MusicGenrePage = () => {
               </FormButton>
             </FormFormControl>
           </form>
-          <MusicGenreList>
+          <PageList>
             {musicGenres.map((item) => {
               const { id, name } = item;
               return (
-                <MusicGenreListItem key={id} >
-                  <MusicGenreListItemText primary={name} />
-                </MusicGenreListItem>
+                <PageListItem key={id} >
+                  <PageListItemText primary={name} />
+                </PageListItem>
               )
             })}
-          </MusicGenreList>
+          </PageList>
         </MusicGenrePageContainer> 
       : <></>}
       <Footer />

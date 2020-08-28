@@ -4,9 +4,9 @@ import { useHistory } from 'react-router';
 import {
   FooterBottomNavigation,
   FooterBottomNavigationAction,
-  FooterHome,
-  FooterPlaylist,
-  FooterSearch
+  HomeIcon,
+  PlaylistIcon,
+  SearchIcon
 } from '../../style';
 
 const FooterPremium = () => {
@@ -22,9 +22,9 @@ const FooterPremium = () => {
 
   return (
     <FooterBottomNavigation value={currentPage} onChange={handleChange} >
-      <FooterBottomNavigationAction label='Home' value='/home' icon={<FooterHome />} />
-      <FooterBottomNavigationAction label='Playlists' value='/playlist' icon={<FooterPlaylist />} />
-      <FooterBottomNavigationAction label='Search' value='/search' icon={<FooterSearch />} />
+      <FooterBottomNavigationAction label='Home' value='/home' icon={<HomeIcon />} />
+      <FooterBottomNavigationAction label='Playlists' value='/playlist' icon={<PlaylistIcon />} />
+      <FooterBottomNavigationAction label='Search' value='/search' icon={<SearchIcon />} />
     </FooterBottomNavigation>
   )
 };

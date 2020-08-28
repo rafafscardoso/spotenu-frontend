@@ -8,14 +8,14 @@ import { ProfileContext } from '../../contexts';
 import { getAllListeners, upgradeToPremium } from '../../request';
 import {
   PageContainer,
-  FormIconButton
+  FormIconButton,
+  PageList,
+  PageListItem,
+  PageListItemText
 } from '../../style';
 
 import {
   UpgradeToPremiumPageContainer,
-  UpgradeToPremiumList,
-  UpgradeToPremiumListItem,
-  UpgradeToPremiumListItemText,
   UpgradeIcon
 } from './style';
 
@@ -56,30 +56,30 @@ const UpgradeToPremiumPage = () => {
         {listeners ? 
           <div>
             <h3>Usuários ouvintes não pagantes</h3>
-            <UpgradeToPremiumList>
+            <PageList>
               {listeners.filter((item) => item.role.toLowerCase() === 'free').map((item) => {
                 const { id, name } = item;
                 return (
-                  <UpgradeToPremiumListItem key={id} >
-                    <UpgradeToPremiumListItemText primary={name} />
+                  <PageListItem key={id} >
+                    <PageListItemText primary={name} />
                     <FormIconButton onClick={() => submitUpgradeToPremium(id)} >
                       <UpgradeIcon />
                     </FormIconButton>
-                  </UpgradeToPremiumListItem>
+                  </PageListItem>
                 )
               })}
-            </UpgradeToPremiumList>
+            </PageList>
             <h3>Usuários ouvintes pagantes</h3>
-            <UpgradeToPremiumList>
+            <PageList>
               {listeners.filter((item) => item.role.toLowerCase() === 'premium').map((item) => {
                 const { id, name } = item;
                 return (
-                  <UpgradeToPremiumListItem key={id} >
-                    <UpgradeToPremiumListItemText primary={name} />
-                  </UpgradeToPremiumListItem>
+                  <PageListItem key={id} >
+                    <PageListItemText primary={name} />
+                  </PageListItem>
                 )
               })}
-            </UpgradeToPremiumList>
+            </PageList>
           </div>
         : <></>}
       </UpgradeToPremiumPageContainer>

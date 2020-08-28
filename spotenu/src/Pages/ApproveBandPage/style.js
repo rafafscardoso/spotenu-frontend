@@ -1,9 +1,5 @@
 import styled from 'styled-components';
-import {
-  List,
-  ListItem,
-  ListItemText
-} from '@material-ui/core';
+import {} from '@material-ui/core';
 import {
   ThumbUp
 } from '@material-ui/icons';
@@ -18,12 +14,6 @@ export const ApproveBandPageContainer = styled.div`
   > div {
     width: 100%;
   }
-`
-export const ApproveBandList = styled(List)`
-`
-export const ApproveBandListItem = styled(ListItem)`
-`
-export const ApproveBandListItemText = styled(ListItemText)`
 `
 export const ApproveIcon = styled(ThumbUp)`
 `

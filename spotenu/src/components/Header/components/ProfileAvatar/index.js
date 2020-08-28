@@ -20,7 +20,7 @@ const ProfileAvatar = () => {
 
   const avatar = () => {
     const splittedName = name.split(' ');
-    if (splittedName.length > 0) {
+    if (splittedName.length > 1) {
       return `${splittedName[0].charAt(0)}${splittedName[splittedName.length - 1].charAt(0)}`;
     }
     return name.charAt(0);

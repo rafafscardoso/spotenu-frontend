@@ -31,21 +31,19 @@ export const FooterBottomNavigation = styled(BottomNavigation)`
 `
 export const FooterBottomNavigationAction = styled(BottomNavigationAction)`
 `
-export const FooterHome = styled(HomeOutlined)`
+export const HomeIcon = styled(HomeOutlined)`
 `
-export const FooterProfile = styled(PersonOutlined)`
+export const SearchIcon = styled(SearchOutlined)`
 `
-export const FooterSearch = styled(SearchOutlined)`
+export const AlbumIcon = styled(AlbumOutlined)`
 `
-export const FooterAlbum = styled(AlbumOutlined)`
+export const PlaylistIcon = styled(LibraryMusicOutlined)`
 `
-export const FooterPlaylist = styled(LibraryMusicOutlined)`
+export const MusicIcon = styled(MusicNoteOutlined)`
 `
-export const FooterMusic = styled(MusicNoteOutlined)`
+export const AdminIcon = styled(SupervisorAccountOutlined)`
 `
-export const FooterCreateAdmin = styled(SupervisorAccountOutlined)`
+export const UpdateIcon = styled(PaymentOutlined)`
 `
-export const FooterUpdate = styled(PaymentOutlined)`
-`
-export const FooterApproveBand = styled(ThumbUpOutlined)`
+export const ApproveIcon = styled(ThumbUpOutlined)`
 `

@@ -1,9 +1,5 @@
 import styled from 'styled-components';
-import {
-  List,
-  ListItem,
-  ListItemText
-} from '@material-ui/core';
+import {} from '@material-ui/core';
 import {
   MonetizationOn
 } from '@material-ui/icons';
@@ -18,12 +14,6 @@ export const UpgradeToPremiumPageContainer = styled.div`
   > div {
     width: 100%;
   }
-`
-export const UpgradeToPremiumList = styled(List)`
-`
-export const UpgradeToPremiumListItem = styled(ListItem)`
-`
-export const UpgradeToPremiumListItemText = styled(ListItemText)`
 `
 export const UpgradeIcon = styled(MonetizationOn)`
 `

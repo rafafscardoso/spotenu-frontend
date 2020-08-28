@@ -8,14 +8,14 @@ import { ProfileContext } from '../../contexts';
 import { getAllBands, approveBand } from '../../request';
 import {
   PageContainer,
-  FormIconButton
+  FormIconButton,
+  PageList,
+  PageListItem,
+  PageListItemText
 } from '../../style';
 
 import {
   ApproveBandPageContainer,
-  ApproveBandList,
-  ApproveBandListItem,
-  ApproveBandListItemText,
   ApproveIcon
 } from './style';
 
@@ -56,30 +56,30 @@ const ApproveBandPage = () => {
         {bands ?
           <div>
             <h3>Artistas para serem aprovados</h3>
-            <ApproveBandList>
+            <PageList>
               {bands.filter((item) => !item.isApproved).map((item) => {
                 const { id, name } = item;
                 return (
-                  <ApproveBandListItem key={id} >
-                    <ApproveBandListItemText primary={name} />
+                  <PageListItem key={id} >
+                    <PageListItemText primary={name} />
                     <FormIconButton edge='end' onClick={() => submitApproveBand(id)} >
                       <ApproveIcon />
                     </FormIconButton>
-                  </ApproveBandListItem>
+                  </PageListItem>
                 )
               })}
-            </ApproveBandList>
+            </PageList>
             <h3>Artistas já aprovados</h3>
-            <ApproveBandList>
+            <PageList>
               {bands.filter((item) => item.isApproved).map((item) => {
                 const { id, name } = item;
                 return (
-                  <ApproveBandListItem key={id} >
-                    <ApproveBandListItemText primary={name} />
-                  </ApproveBandListItem>
+                  <PageListItem key={id} >
+                    <PageListItemText primary={name} />
+                  </PageListItem>
                 )
               })}
-            </ApproveBandList>
+            </PageList>
           </div>
         : <></>}
       </ApproveBandPageContainer>

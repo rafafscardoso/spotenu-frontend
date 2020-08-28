@@ -1,9 +1,5 @@
 import styled from 'styled-components';
-import {
-  List,
-  ListItem,
-  ListItemText
-} from '@material-ui/core';
+import {} from '@material-ui/core';
 
 export const MusicGenrePageContainer = styled.div`
   padding: 1rem;
@@ -17,10 +13,4 @@ export const MusicGenrePageContainer = styled.div`
     display: flex;
     flex-direction: column;
   }
-`
-export const MusicGenreList = styled(List)`
-`
-export const MusicGenreListItem = styled(ListItem)`
-`
-export const MusicGenreListItemText = styled(ListItemText)`
 `

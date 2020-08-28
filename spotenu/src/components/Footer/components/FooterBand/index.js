@@ -3,7 +3,9 @@ import { useHistory } from 'react-router';
 
 import {
   FooterBottomNavigation,
-  FooterBottomNavigationAction
+  FooterBottomNavigationAction,
+  HomeIcon,
+  AlbumIcon
 } from '../../style';
 
 const FooterBand = () => {
@@ -18,8 +20,9 @@ const FooterBand = () => {
   }
 
   return (
-    <FooterBottomNavigation>
-      <FooterBottomNavigationAction />
+    <FooterBottomNavigation value={currentPage} onChange={handleChange} >
+      <FooterBottomNavigationAction label='Home' value='/home' icon={<HomeIcon />} />
+      <FooterBottomNavigationAction label='Album' value='/album/band' icon={<AlbumIcon />} />
     </FooterBottomNavigation>
   );
 };

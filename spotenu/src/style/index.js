@@ -3,9 +3,15 @@ import {
   MuiThemeProvider,
   FormControl,
   TextField,
+  MenuItem,
   Button,
   InputAdornment,
-  IconButton
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Divider
 } from '@material-ui/core';
 
 export const PageContainer = styled.div`
@@ -28,6 +34,8 @@ export const FormFormControl = styled(FormControl)`
 `
 export const FormTextField = styled(TextField)`
 `
+export const FormMenuItem = styled(MenuItem)`
+`
 export const FormButton = styled(Button)`
   && {
     margin: .5rem 0;
@@ -36,4 +44,14 @@ export const FormButton = styled(Button)`
 export const FormInputAdornment = styled(InputAdornment)`
 `
 export const FormIconButton = styled(IconButton)`
+`
+export const PageList = styled(List)`
+`
+export const PageListItem = styled(ListItem)`
+`
+export const PageListItemText = styled(ListItemText)`
+`
+export const PageListItemIcon = styled(ListItemIcon)`
+`
+export const PageDivider = styled(Divider)`
 `
