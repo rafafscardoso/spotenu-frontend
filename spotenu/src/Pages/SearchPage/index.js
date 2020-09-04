@@ -1,52 +1,57 @@
-import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router';
+import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import Loading from '../../components/Loading';
 
-import { usePrivatePage, useForm } from '../../hooks';
-import { ProfileContext } from '../../contexts';
-import { getSongsByQuery, getAlbumsByQuery, getPlaylistsByQuery } from '../../request';
+import { usePrivatePage } from '../../hooks';
+import { getSongsByQuery, getAllMusicGenres } from '../../request';
+import { QueryContext, BrowseContext, GenreContext } from '../../contexts';
+import { SearchIcon, CancelIcon, ArrowFwdIcon } from '../../icons';
 import {
   PageContainer,
   FormFormControl,
   FormTextField,
   FormInputAdornment,
-  FormIconButton
+  FormIconButton,
+  PageList,
+  PageListItem,
+  PageListItemText,
+  PagePagination
 } from '../../style';
-
-import SearchPremium from './components/SearchPremium';
-import SearchFree from './components/SearchFree';
 
 import {
   SearchPageContainer,
-  SearchIcon,
-  CancelIcon
+  QueryResultWrapper
 } from './style';
 
 const SearchPage = () => {
 
-  const { profile, setProfile } = useContext(ProfileContext);
+  usePrivatePage();
 
-  usePrivatePage(setProfile);
+  const history = useHistory();
 
-  const { form, onChange, resetForm } = useForm({
-    query: ''
-  });
-
+  const { querySongs, setQuerySongs, queryCount, setQueryCount, queryPage, setQueryPage, form, onChange, resetForm } = useContext(QueryContext);
+  const { setBrowseSongs } = useContext(BrowseContext);
+  const { musicGenres, setMusicGenres } = useContext(GenreContext);
+  
   const [isQueried, setIsQueried] = useState(false);
 
-  const [queryList, setQueryList] = useState({
-    song: undefined,
-    album: undefined,
-    playlist: undefined
-  });
+  useEffect(() => {
+    if (!musicGenres) {
+      getGenres();
+    }
+  }, [setMusicGenres]);
 
-  const [page, setPage] = useState({
-    song: 1,
-    album: 1,
-    playlist: 1
-  });
+  const getGenres = async () => {
+    try {
+      const response = await getAllMusicGenres();
+      setMusicGenres(response.musicGenres);
+    } catch (error) {
+      console.error(error.response);
+    }
+  }
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -54,105 +59,117 @@ const SearchPage = () => {
     onChange(name, value);
   };
 
-  const { query } = form;
+  const handleChange = (event, value) => {
+    setQueryPage(value);
+    setQuerySongs(undefined);
+    submitSongsByQuery(value);
+  }
 
   const submitSongsByQuery = async (page) => {
     try {
-      const result = await getSongsByQuery(query, page);
-      const song = result.songs;
-      setQueryList({ ...queryList, song })
-      console.log(result.songs);
-    } catch (error) {
-      console.error(error.response);
-    }
-  };
-
-  const submitAlbumsByQuery = async (page) => {
-    try {
-      const result = await getAlbumsByQuery(query, page);
-      const album = result.albums;
-      setQueryList({ ...queryList, album });
-      console.log(result.albums);
-    } catch (error) {
-      console.error(error.response);
-    }
-  };
-
-  const submitPlaylistsByQuery = async (page) => {
-    try {
-      const result = await getPlaylistsByQuery(query, page);
-      const playlist = result.playlists;
-      setQueryList({ ...queryList, playlist });
-      console.log(result.playlists);
+      const response = await getSongsByQuery(form.query, page);
+      setQueryCount(Math.ceil(response.quantity / 10));
+      setQuerySongs(response.songs);
     } catch (error) {
       console.error(error.response);
     }
   };
 
   const submitQuery = (event) => {
-    if (event.key === 'Enter') {
-      submitSongsByQuery(page.song);
-      submitAlbumsByQuery(page.album);
-      submitPlaylistsByQuery(page.playlist);
-      setIsQueried(true);
-    }
+    event.preventDefault();
+    setIsQueried(true);
+    submitSongsByQuery(queryPage);
   }
 
   const clearQuery = () => {
     resetForm();
     setIsQueried(false);
-  }
-
-  const profileSearch = () => {
-    const { role } = profile;
-    switch (role) {
-      case 'PREMIUM':
-        return <SearchPremium page={[page, setPage]} queryList={queryList} />;
-      case 'FREE':
-        return <SearchFree page={[page, setPage]} queryList={queryList} />;
-      default:
-        return <></>;
-    }
+    setQuerySongs(undefined);
+    setQueryCount(0);
+    setQueryPage(1);
   }
 
   return (
     <PageContainer>
       <Header />
-      {profile ? 
+      {musicGenres ? 
         <SearchPageContainer>
-          <FormFormControl>
-            <FormTextField
-              name='query'
-              value={query}
-              label='Busque aqui'
-              type='text'
-              onChange={handleInputChange}
-              onKeyDown={submitQuery}
-              variant='outlined'
-              color='primary'
-              InputProps={{
-                startAdornment: (
-                  <FormInputAdornment>
-                    <SearchIcon color='secondary' />
-                  </FormInputAdornment>
-                ),
-                endAdornment: (
-                  <FormInputAdornment>
-                    {query && (
-                      <FormIconButton onClick={clearQuery} >
-                        <CancelIcon color='secondary' />
-                      </FormIconButton>
-                    )}
-                  </FormInputAdornment>
+          <form onSubmit={submitQuery} >
+            <FormFormControl>
+              <FormTextField
+                name='query'
+                value={form.query}
+                label='Busque aqui'
+                placeholder='Busque uma música pelo nome'
+                type='text'
+                onChange={handleInputChange}
+                variant='outlined'
+                color='primary'
+                required
+                InputProps={{
+                  startAdornment: (
+                    <FormInputAdornment>
+                      <SearchIcon color='secondary' />
+                    </FormInputAdornment>
+                  ),
+                  endAdornment: (
+                    <FormInputAdornment>
+                      {form.query && (
+                        <FormIconButton onClick={clearQuery} >
+                          <CancelIcon color='secondary' />
+                        </FormIconButton>
+                      )}
+                    </FormInputAdornment>
+                  )
+                }}
+              />
+            </FormFormControl>
+          </form>
+          {querySongs ? (
+            querySongs.length ? (
+              <QueryResultWrapper>
+                <PageList>
+                  {querySongs.map((item) => {
+                    const { id, name } = item;
+                    return (
+                      <PageListItem key={id} onClick={() => history.push(`/song/${id}`)} >
+                        <PageListItemText primary={name} />
+                        <ArrowFwdIcon color='primary' />
+                      </PageListItem>
+                    )
+                  })}
+                </PageList>
+                {queryCount && 
+                  <PagePagination 
+                    count={queryCount} 
+                    page={queryPage} 
+                    onChange={handleChange} 
+                  />
+                }
+              </QueryResultWrapper>
+            ) : (
+              <div>{'Não encontramos nada :('}</div>
+            )
+          ) : (isQueried ? (
+            <Loading />
+          ) : (
+            <PageList>
+              {musicGenres.map((item) => {
+                const { id, name } = item;
+                return (
+                  <PageListItem key={id} onClick={() => {
+                    setBrowseSongs(undefined);
+                    history.push(`/genre/${id}`);
+                  }} >
+                    <PageListItemText primary={name} />
+                    <ArrowFwdIcon color='primary' />
+                  </PageListItem>
                 )
-              }}
-            />
-          </FormFormControl>
-          {isQueried && (
-            profileSearch()
-          )}
+              })}
+            </PageList>
+          ))}
         </SearchPageContainer> 
-      : <></>}
+      : <Loading />} 
       <Footer />
     </PageContainer>
   );

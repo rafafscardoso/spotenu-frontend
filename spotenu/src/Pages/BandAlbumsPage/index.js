@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import Loading from '../../components/Loading';
 
 import { usePrivatePage } from '../../hooks';
-import { ProfileContext } from '../../contexts';
 import { getAlbumsByBand } from '../../request';
+import { AddIcon, ArrowFwdIcon } from '../../icons';
 import {
   PageContainer,
   PageList,
@@ -17,35 +18,35 @@ import {
 } from '../../style';
 
 import {
-  BandAlbumsPageContainer,
-  AddIcon
+  BandAlbumsPageContainer
 } from './style';
 
 const BandAlbumsPage = () => {
 
-  const { setProfile } = useContext(ProfileContext);
-
-  usePrivatePage(setProfile);
+  usePrivatePage();
 
   const history = useHistory();
 
   const [albums, setAlbums] = useState(undefined);
 
   useEffect(() => {
-    getAlbumsByBand()
-      .then(response => {
-        setAlbums(response.albums);
-      })
-      .catch(error => {
-        console.error(error.response);
-      });
+    getAlbums();
   }, [setAlbums]);
+
+  const getAlbums = async () => {
+    try {
+      const response = await getAlbumsByBand();
+      setAlbums(response.albums);
+    } catch (error) {
+      console.error(error.response);
+    }
+  }
 
   return (
     <PageContainer>
       <Header />
-      <BandAlbumsPageContainer>
-        {albums ? 
+      {albums ? 
+        <BandAlbumsPageContainer>
           <PageList>
             <PageListItem button onClick={() => history.push('/create/album')} >
               <PageListItemIcon>
@@ -59,12 +60,13 @@ const BandAlbumsPage = () => {
               return (
                 <PageListItem key={id} button onClick={() => history.push(`/album/${id}`)} >
                   <PageListItemText primary={name} secondary={creatorBandName} />
+                  <ArrowFwdIcon color='primary' />
                 </PageListItem>
               )
             })}
           </PageList> 
-        : <></>}
-      </BandAlbumsPageContainer>
+        </BandAlbumsPageContainer>
+      : <Loading />}
       <Footer />
     </PageContainer>
   );

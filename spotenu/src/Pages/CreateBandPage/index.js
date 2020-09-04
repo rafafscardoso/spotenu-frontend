@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 import { usePublicPage, useForm } from '../../hooks';
 import { createBand } from '../../request';
+import { VisibilityOnIcon, VisibilityOffIcon } from '../../icons';
 import { 
   PageContainer, 
   FormFormControl,
@@ -16,16 +16,12 @@ import {
 } from '../../style';
 
 import {
-  CreateBandPageContainer,
-  VisibilityOnIcon,
-  VisibilityOffIcon
+  CreateBandPageContainer
 } from './style';
 
 const CreateBandPage = () => {
 
   usePublicPage();
-
-  const history = useHistory();
 
   const { form, onChange, resetForm } = useForm({
     name: '',
@@ -56,8 +52,7 @@ const CreateBandPage = () => {
     }
     const body = { name, nickname, email, password, description };
     try {
-      const response = await createBand(body);
-      console.log(response);
+      await createBand(body);
       resetForm();
       window.alert('Banda criada com sucesso, aguardando aprovação');
     } catch (error) {
@@ -186,6 +181,6 @@ const CreateBandPage = () => {
       <Footer />
     </PageContainer>
   );
-}
+};
 
 export default CreateBandPage;

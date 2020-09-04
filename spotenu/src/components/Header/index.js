@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router';
 
-import ProfileAvatar from './components/ProfileAvatar';
-
 import { ProfileContext } from '../../contexts';
+import { ArrowBackIcon } from '../../icons';
+import {
+  FormIconButton
+} from '../../style'
 
 import {
   HeaderContainer,
-  HeaderArrowBack,
+  HeaderAvatar,
   HeaderDivider
 } from './style';
 
@@ -26,24 +28,34 @@ const Header = () => {
     }
   }, [history.location.pathname]);
 
+  const avatar = () => {
+    const splittedName = profile.name.split(' ');
+    if (splittedName.length > 1) {
+      return `${splittedName[0].charAt(0)}${splittedName[splittedName.length - 1].charAt(0)}`;
+    }
+    return profile.name.charAt(0);
+  }
+
   return (
     <HeaderContainer>
       <div>
         <div>
-          {hasBackButton ? 
-            <HeaderArrowBack 
-              color='primary' 
-              onClick={() => history.goBack()}
-            />
-          : <></>}
+          {hasBackButton &&
+            <FormIconButton onClick={() => history.goBack()} >
+              <ArrowBackIcon color='primary' />
+            </FormIconButton>
+          }
         </div>
         <div>
           logo
         </div>
-        {profile ? 
-          <ProfileAvatar />
-        : <></>}
+        <div>
+          {profile &&
+            <HeaderAvatar >{avatar()}</HeaderAvatar>
+          }
+        </div>
       </div>
+      {(hasBackButton || profile) && <HeaderDivider />}
     </HeaderContainer>
   );
 }

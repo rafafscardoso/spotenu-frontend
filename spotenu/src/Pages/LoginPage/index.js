@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 import { usePublicPage, useForm } from '../../hooks';
 import { login } from '../../request';
+import { VisibilityOnIcon, VisibilityOffIcon } from '../../icons';
 import { 
   PageContainer, 
   FormFormControl,
@@ -16,9 +17,7 @@ import {
 } from '../../style';
 
 import {
-  LoginPageContainer,
-  VisibilityOnIcon,
-  VisibilityOffIcon
+  LoginPageContainer
 } from './style';
 
 const LoginPage = () => {
@@ -46,8 +45,7 @@ const LoginPage = () => {
     event.preventDefault();
     const body = form;
     try {
-      const response = await login(body);
-      console.log(response);
+      await login(body);
       resetForm();
       history.push('/home');
     } catch (error) {

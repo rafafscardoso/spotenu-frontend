@@ -1,16 +1,19 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import Loading from '../../components/Loading';
 
 import { usePrivatePage, useForm } from '../../hooks';
-import { ProfileContext } from '../../contexts';
 import { createMusicGenre, getAllMusicGenres } from '../../request';
+import { CancelIcon } from '../../icons';
 import {
   PageContainer,
   FormFormControl,
   FormTextField,
   FormButton,
+  FormInputAdornment,
+  FormIconButton,
   PageList,
   PageListItem,
   PageListItemText
@@ -22,9 +25,7 @@ import {
 
 const MusicGenrePage = () => {
 
-  const { setProfile } = useContext(ProfileContext);
-
-  usePrivatePage(setProfile);
+  usePrivatePage();
 
   const { form, onChange, resetForm } = useForm({
     name: ''
@@ -34,14 +35,17 @@ const MusicGenrePage = () => {
   const [update, setUpdate] = useState(false);
 
   useEffect(() => {
-    getAllMusicGenres()
-      .then(response => {
-        setMusicGenres(response.musicGenres);
-      })
-      .catch(error => {
-        console.error(error.response);
-      });
+    getGenres();
   }, [setMusicGenres, update]);
+
+  const getGenres = async () => {
+    try {
+      const response = await getAllMusicGenres();
+      setMusicGenres(response.musicGenres);
+    } catch (error) {
+      console.error(error.response);
+    }
+  }
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -54,15 +58,13 @@ const MusicGenrePage = () => {
   const submitCreateMusicGenre = async (event) => {
     event.preventDefault();
     const body = form;
-    createMusicGenre(body)
-      .then(response => {
-        console.log(response);
-        setUpdate(!update);
-        resetForm();
-      })
-      .catch(error => {
-        console.error(error.response);
-      });
+    try {
+      await createMusicGenre(body);
+      setUpdate(!update);
+      resetForm();
+    } catch (error) {
+      console.error(error.response);
+    }
   }
 
   return (
@@ -80,6 +82,18 @@ const MusicGenrePage = () => {
                 onChange={handleInputChange}
                 variant='outlined'
                 color='primary'
+                autoFocus
+                InputProps={{
+                  endAdornment: (
+                    <FormInputAdornment>
+                      {name &&
+                        <FormIconButton onClick={resetForm}>
+                          <CancelIcon />
+                        </FormIconButton>
+                      }
+                    </FormInputAdornment>
+                  )
+                }}
               />
               <FormButton
                 type='submit'
@@ -101,7 +115,7 @@ const MusicGenrePage = () => {
             })}
           </PageList>
         </MusicGenrePageContainer> 
-      : <></>}
+      : <Loading />}
       <Footer />
     </PageContainer>
   );

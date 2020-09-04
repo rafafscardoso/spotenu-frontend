@@ -1,38 +1,39 @@
-import React, { useContext } from 'react';
-
-import FooterPremium from './components/FooterPremium';
-import FooterAdmin from './components/FooterAdmin';
-import FooterFree from './components/FooterFree';
-import FooterBand from './components/FooterBand';
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { ProfileContext } from '../../contexts';
+import { HomeOutIcon, SearchOutIcon, ProfileOutIcon } from '../../icons';
 
 import {
-  FooterContainer
+  FooterContainer,
+  FooterBottomNavigation,
+  FooterBottomNavigationAction
 } from './style';
 
 const Footer = () => {
 
   const { profile } = useContext(ProfileContext);
 
-  const profileFooter = () => {
-    switch (profile.role) {
-      case 'ADMIN':
-        return <FooterAdmin />
-      case 'BAND':
-        return <FooterBand />
-      case 'PREMIUM':
-        return <FooterPremium />
-      default :
-        return <FooterFree />
-    }
+  const history = useHistory();
+
+  const [currentPage, setCurrentPage] = useState(history.location.pathname);
+
+  const handleChange = (event, newValue) => {
+    setCurrentPage(newValue);
+    history.push(newValue);
   }
 
   return (
     <FooterContainer>
-      {profile ?
-        profileFooter()
-      : <></>}
+      {profile && (
+        <FooterBottomNavigation value={currentPage} onChange={handleChange} showLabels >
+          <FooterBottomNavigationAction label='Home' value='/home' icon={<HomeOutIcon />} />
+          {(profile.role.toLowerCase() === 'free' || profile.role.toLowerCase() === 'premium') && (
+            <FooterBottomNavigationAction label='Search' value='/search' icon={<SearchOutIcon />} />
+          )}
+          <FooterBottomNavigationAction label='Profile' value='/profile' icon={<ProfileOutIcon />} />
+        </FooterBottomNavigation>
+      )}
     </FooterContainer>
   );
 };

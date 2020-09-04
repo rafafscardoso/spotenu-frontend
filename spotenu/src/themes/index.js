@@ -4,12 +4,12 @@ export const MyTheme = createMuiTheme({
   palette: {
     // type: 'dark',
     primary: {
-      main: "#f47d1f",
+      main: "#fd7d00",
       contrastText: '#000'
     },
     secondary: {
       main: '#45525b',
-      contrastText: '#f5f2d0'
+      contrastText: '#f7f7f7'
     }
   }
 });

@@ -13,14 +13,15 @@ import {
   ListItemIcon,
   Divider
 } from '@material-ui/core';
+import { Pagination } from '@material-ui/lab';
 
 export const PageContainer = styled.div`
   min-height: 100vh;
   width: 100%;
   max-width: 420px;
   margin: 0 auto;
-  /* background-color: #45525b;
-  color: #a8bac5; */
+  background-color: #f7f7f7;
+  /* color: #a8bac5; */
   display: grid;
   grid-template-rows: 4rem 1fr 4rem;
   grid-template-columns: 1fr;
@@ -54,4 +55,6 @@ export const PageListItemText = styled(ListItemText)`
 export const PageListItemIcon = styled(ListItemIcon)`
 `
 export const PageDivider = styled(Divider)`
+`
+export const PagePagination = styled(Pagination)`
 `

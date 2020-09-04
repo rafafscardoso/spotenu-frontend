@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 import { usePrivatePage, useForm } from '../../hooks';
-import { ProfileContext } from '../../contexts';
 import { createAdmin } from '../../request';
+import { VisibilityOnIcon, VisibilityOffIcon } from '../../icons';
 import {
   PageContainer,
   FormFormControl,
@@ -16,16 +16,12 @@ import {
 } from '../../style';
 
 import {
-  CreateAdminPageContainer,
-  VisibilityOnIcon,
-  VisibilityOffIcon
+  CreateAdminPageContainer
 } from './style';
 
 const CreateAdminPage = () => {
 
-  const { setProfile } = useContext(ProfileContext);
-
-  usePrivatePage(setProfile);
+  usePrivatePage();
 
   const { form, onChange, resetForm } = useForm({
     name: '',
@@ -55,8 +51,7 @@ const CreateAdminPage = () => {
     }
     const body = { name, nickname, email, password };
     try {
-      const response = await createAdmin(body);
-      console.log(response);
+      await createAdmin(body);
       resetForm();
     } catch (error) {
       console.error(error.response);

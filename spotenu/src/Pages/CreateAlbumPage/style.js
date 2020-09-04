@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import {} from '@material-ui/core';
-import {} from '@material-ui/icons';
 
 export const CreateAlbumPageContainer = styled.div`
   padding: 1rem;

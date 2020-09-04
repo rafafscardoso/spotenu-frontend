@@ -1,7 +1,11 @@
 import React from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
-import { usePublicPage } from '../../hooks';
+import Logo from '../../img/logo.jpeg';
+
+import {
+  PageContainer
+} from '../../style';
 
 import {
   OpeningPageContainer
@@ -9,20 +13,21 @@ import {
 
 const OpeningPage = () => {
 
-  const device = `${navigator.platform}.${navigator.appCodeName}`;
-
-  usePublicPage();
-
   const history = useHistory();
 
-  const goToLoginPage = setTimeout(() => {
-    history.push('/login');
-  }, 5000);
+  const goToLoginPage = () => {
+    setTimeout(() => {
+      history.push('login');
+    }, 5000);
+  }
 
   return (
-    <OpeningPageContainer>
-      OpeningPage
-    </OpeningPageContainer>
+    <PageContainer>
+      <OpeningPageContainer>
+        <img src={Logo} alt='Logo' />
+        {goToLoginPage()}
+      </OpeningPageContainer>
+    </PageContainer>
   );
 }
 

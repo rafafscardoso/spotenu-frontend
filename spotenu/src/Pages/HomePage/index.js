@@ -14,41 +14,35 @@ import HomeAdmin from './components/HomeAdmin';
 import HomeBand from './components/HomeBand';
 import HomeFree from './components/HomeFree';
 
-import {
-  HomePageContainer
-} from './style';
-
 const HomePage = () => {
 
-  const { profile, setProfile } = useContext(ProfileContext);
+  usePrivatePage();
 
-  usePrivatePage(setProfile);
+  const { profile } = useContext(ProfileContext);
 
   const profileHome = () => {
     const { role } = profile;
-    switch (role) {
-      case 'PREMIUM':
+    switch (role.toLowerCase()) {
+      case 'premium':
         return <HomePremium />
-      case 'ADMIN':
+      case 'admin':
         return <HomeAdmin />
-      case 'BAND':
+      case 'band':
         return <HomeBand />
-      case 'FREE':
+      case 'free':
         return <HomeFree />
       default:
-        return <></>
+        return <>Erro</>
     }
   }
 
   return (
     <PageContainer>
       <Header />
-      <HomePageContainer>
-        {profile ? profileHome() : <></>}
-      </HomePageContainer>
+      {profile ? profileHome() : <></>}
       <Footer />
     </PageContainer>
   );
-}
+};
 
 export default HomePage;

@@ -1,18 +1,21 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import Loading from '../../components/Loading';
 
 import { usePrivatePage, useForm } from '../../hooks';
-import { ProfileContext } from '../../contexts';
 import { createAlbum, getAllMusicGenres } from '../../request';
+import { CancelIcon } from '../../icons';
 import { 
   PageContainer, 
   FormFormControl,
   FormTextField,
   FormMenuItem,
-  FormButton
+  FormButton,
+  FormInputAdornment,
+  FormIconButton
 } from '../../style';
 
 import {
@@ -21,13 +24,11 @@ import {
 
 const CreateAlbumPage = () => {
 
-  const { setProfile } = useContext(ProfileContext);
-
-  usePrivatePage(setProfile);
+  usePrivatePage();
 
   const history = useHistory();
 
-  const { form, onChange, resetForm } = useForm({
+  const { form, onChange } = useForm({
     name: '',
     firstGenre: '',
     secondGenre: '',
@@ -45,41 +46,41 @@ const CreateAlbumPage = () => {
   };
 
   useEffect(() => {
-    getAllMusicGenres()
-      .then(response => {
-        setGenresList(response.musicGenres)
-      })
-      .catch(error => {
-        console.error(error.response);
-      });
+    getGenres();
   }, [setGenresList]);
 
-  const submitCreateAlbum = (event) => {
+  const getGenres = async () => {
+    try {
+      const response = await getAllMusicGenres();
+      setGenresList(response.musicGenres);
+    } catch (error) {
+      console.error(error.response);
+    }
+  }
+
+  const submitCreateAlbum = async (event) => {
     event.preventDefault();
-    const musicGenres = [firstGenre];
+    const musicGenres = [{ id: firstGenre }];
     if (secondGenre) {
-      musicGenres.push(secondGenre);
+      musicGenres.push({ id: secondGenre });
       if (thirdGenre) {
-        musicGenres.push(thirdGenre);
+        musicGenres.push({ id: thirdGenre });
       }
     }
     const body = { name, musicGenres };
-    console.log(body)
-    // createAlbum(body)
-    //   .then(response => {
-    //     console.log(response);
-    //     history.push('/album/band')
-    //   })
-    //   .catch(error => {
-    //     console.error(error.response);
-    //   });
+    try {
+      await createAlbum(body);
+      history.push('/album/band');
+    } catch (error) {
+      console.error(error.response);
+    }
   }
 
   return (
     <PageContainer>
       <Header />
-      <CreateAlbumPageContainer>
-        {genresList ?
+      {genresList ?
+        <CreateAlbumPageContainer>
           <form onSubmit={submitCreateAlbum} >
             <FormFormControl>
               <FormTextField 
@@ -91,6 +92,18 @@ const CreateAlbumPage = () => {
                 variant='outlined'
                 color='primary'
                 required
+                autoFocus
+                InputProps={{
+                  endAdornment: (
+                    <FormInputAdornment>
+                      {name &&
+                        <FormIconButton onClick={() => onChange('name', '')}>
+                          <CancelIcon />
+                        </FormIconButton>
+                      }
+                    </FormInputAdornment>
+                  )
+                }}
               />
             </FormFormControl>
             <FormFormControl>
@@ -104,7 +117,7 @@ const CreateAlbumPage = () => {
                 color='primary'
                 required
               >
-                <FormMenuItem value='' ></FormMenuItem>
+                <FormMenuItem value='' />
                 {genresList.map((item) => {
                   const { id, name } = item;
                   return <FormMenuItem key={id} value={id} >{name}</FormMenuItem>
@@ -157,8 +170,8 @@ const CreateAlbumPage = () => {
               Cadastrar
             </FormButton>
           </form>
-        : <></>}
-      </CreateAlbumPageContainer>
+        </CreateAlbumPageContainer>
+      : <Loading />}
       <Footer />
     </PageContainer>
   );

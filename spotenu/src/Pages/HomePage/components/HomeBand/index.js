@@ -1,18 +1,33 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 
-import {} from '../../../../request';
+import { AlbumIcon } from '../../../../icons';
 
 import {
-  HomeBandContainer
-} from './style';
+  HomePageContainer,
+  HomeList,
+  HomeListItem,
+  HomeListItemIcon,
+  HomeListItemText,
+  HomeDivider
+} from '../../style';
 
 const HomeBand = () => {
 
+  const history = useHistory();
+
   return (
-    <HomeBandContainer>
-      HomeBand
-    </HomeBandContainer>
+    <HomePageContainer>
+      <HomeList>
+        <HomeListItem button onClick={() => history.push('/album/band')} >
+          <HomeListItemIcon>
+            <AlbumIcon color='secondary' />
+          </HomeListItemIcon>
+          <HomeListItemText primary='Álbuns' />
+        </HomeListItem>
+        <HomeDivider />
+      </HomeList>
+    </HomePageContainer>
   )
 };
 

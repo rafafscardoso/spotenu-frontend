@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { ProfileContext } from '../contexts';
 import { getProfile } from '../request';
 
-export const useForm = (InitialValues) => {
+export const useForm = (initialValues) => {
 
-  const [form, setForm] = useState(InitialValues);
+  const [form, setForm] = useState(initialValues);
 
   const onChange = (name, value) => {
     const newForm = { ...form, [name]: value };
@@ -13,24 +14,31 @@ export const useForm = (InitialValues) => {
   };
 
   const resetForm = () => {
-    setForm(InitialValues);
+    setForm(initialValues);
   };
 
   return { form, onChange, resetForm };
 };
 
-export const usePrivatePage = (setProfile) => {
+export const usePrivatePage = () => {
 
   const history = useHistory();
 
+  const { profile, setProfile } = useContext(ProfileContext);
+
+  const getProf = async () => {
+    try {
+      const response = await getProfile();
+      setProfile(response.user);
+    } catch (error) {
+      console.error(error.response);
+    }
+  }
+
   useEffect(() => {
-    getProfile()
-      .then(response => {
-        setProfile(response);
-      })
-      .catch(error => {
-        console.error(error.response);
-      });
+    if (!profile) {
+      getProf();
+    }
     const token = window.localStorage.getItem('token');
 
     if (!token) {

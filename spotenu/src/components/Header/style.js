@@ -1,12 +1,10 @@
 import styled from 'styled-components';
-import {} from '@material-ui/core';
 import {
-  ArrowBackIos
-} from '@material-ui/icons';
+  Avatar,
+  Divider
+} from '@material-ui/core';
 
 export const HeaderContainer = styled.header`
-  /* position: fixed;
-  top: 0; */
   grid-row: 1 / span 1;
   grid-column: 1 / span 1;
   height: 4rem;
@@ -30,13 +28,14 @@ export const HeaderContainer = styled.header`
       grid-row: 1 / span 1;
       grid-column: 2 / span 1;
     }
-    > div:last-of-type {
+    > div:nth-of-type(3) {
       grid-row: 1 / span 1;
       grid-column: 3 / span 1;
       justify-self: flex-end;
     }
   }
 `
-export const HeaderArrowBack = styled(ArrowBackIos)`
-  cursor: pointer;
+export const HeaderAvatar = styled(Avatar)`
+`
+export const HeaderDivider = styled(Divider)`
 `

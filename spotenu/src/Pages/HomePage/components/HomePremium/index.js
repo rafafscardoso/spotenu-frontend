@@ -1,26 +1,23 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 
+import { SearchIcon, PlaylistIcon } from '../../../../icons';
+
 import {
+  HomePageContainer,
   HomeList,
   HomeListItem,
   HomeListItemIcon,
   HomeListItemText,
-  HomeDivider,
-  SearchIcon,
-  PlaylistIcon
+  HomeDivider
 } from '../../style';
-
-import {
-  HomePremiumContainer
-} from './style';
 
 const HomePremium = () => {
 
   const history = useHistory();
 
   return (
-    <HomePremiumContainer>
+    <HomePageContainer>
       <HomeList>
         <HomeListItem button onClick={() => history.push('/search')} >
           <HomeListItemIcon>
@@ -29,14 +26,15 @@ const HomePremium = () => {
           <HomeListItemText primary='Busca' />
         </HomeListItem>
         <HomeDivider />
-        <HomeListItem button >
+        <HomeListItem button onClick={() => history.push('/playlist/user')} >
           <HomeListItemIcon>
             <PlaylistIcon color='secondary' />
           </HomeListItemIcon>
           <HomeListItemText primary='Playlists' />
         </HomeListItem>
+        <HomeDivider />
       </HomeList>
-    </HomePremiumContainer>
+    </HomePageContainer>
   )
 };
 

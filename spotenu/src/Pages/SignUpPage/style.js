@@ -1,9 +1,5 @@
 import styled from 'styled-components';
 import {} from '@material-ui/core';
-import {
-  Visibility,
-  VisibilityOff
-} from '@material-ui/icons';
 
 export const SignUpPageContainer = styled.form`
   padding: 1rem;
@@ -29,8 +25,4 @@ export const SignUpPageContainer = styled.form`
       }
     }
   }
-`
-export const VisibilityOnIcon = styled(Visibility)`
-`
-export const VisibilityOffIcon = styled(VisibilityOff)`
 `

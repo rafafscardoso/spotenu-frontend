@@ -1,28 +1,23 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 
+import { MusicIcon, AdminIcon, ApproveIcon, PaymentIcon } from '../../../../icons';
+
 import {
+  HomePageContainer,
   HomeList,
   HomeListItem,
   HomeListItemIcon,
   HomeListItemText,
   HomeDivider,
-  MusicIcon,
-  AdminIcon,
-  ApproveIcon,
-  UpdateIcon
 } from '../../style';
-
-import {
-  HomeAdminContainer
-} from './style';
 
 const HomeAdmin = () => {
 
   const history = useHistory();
 
   return (
-    <HomeAdminContainer>
+    <HomePageContainer>
       <HomeList>
         <HomeListItem button onClick={() => history.push('/music/genre')} >
           <HomeListItemIcon>
@@ -47,12 +42,13 @@ const HomeAdmin = () => {
         <HomeDivider />
         <HomeListItem button onClick={() => history.push('/update')} >
           <HomeListItemIcon>
-            <UpdateIcon color='secondary' />
+            <PaymentIcon color='secondary' />
           </HomeListItemIcon>
           <HomeListItemText primary='Tornar um usuário free em um premium' />
         </HomeListItem>
+        <HomeDivider />
       </HomeList>
-    </HomeAdminContainer>
+    </HomePageContainer>
   )
 };
 

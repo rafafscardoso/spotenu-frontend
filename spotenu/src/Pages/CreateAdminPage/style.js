@@ -1,9 +1,5 @@
 import styled from 'styled-components';
 import {} from '@material-ui/core';
-import {
-  Visibility,
-  VisibilityOff
-} from '@material-ui/icons';
 
 export const CreateAdminPageContainer = styled.form`
   padding: 1rem;
@@ -15,8 +11,4 @@ export const CreateAdminPageContainer = styled.form`
     display: flex;
     flex-direction: column;
   }
-`
-export const VisibilityOnIcon = styled(Visibility)`
-`
-export const VisibilityOffIcon = styled(VisibilityOff)`
 `

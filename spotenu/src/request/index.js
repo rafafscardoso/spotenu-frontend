@@ -87,20 +87,6 @@ export const getSongsByQuery = async (query, page) => {
   return response.data;
 }
 
-export const getAlbumsByQuery = async (query, page) => {
-  const authorization = window.localStorage.getItem('token');
-  const headers = { authorization };
-  const response = await axios.get(`${baseUrl}/music/album/query?query=${query}&page=${page}`, { headers });
-  return response.data;
-}
-
-export const getPlaylistsByQuery = async (query, page) => {
-  const authorization = window.localStorage.getItem('token');
-  const headers = { authorization };
-  const response = await axios.get(`${baseUrl}/music/playlist/query?query=${query}&page=${page}`, { headers });
-  return response.data;
-}
-
 export const getSongById = async (songId) => {
   const authorization = window.localStorage.getItem('token');
   const headers = { authorization };
@@ -118,7 +104,7 @@ export const upgradeToPremium = async (userId) => {
 export const createPlaylist = async (body) => {
   const authorization = window.localStorage.getItem('token');
   const headers = { authorization };
-  const response = await axios.pu(`${baseUrl}/music/playlist/create`, body, { headers });
+  const response = await axios.put(`${baseUrl}/music/playlist/create`, body, { headers });
   return response.data;
 }
 
@@ -143,10 +129,24 @@ export const getAllPlaylistsByUser = async (page) => {
   return response.data;
 }
 
+export const getAllPublicPlaylists = async (page) => {
+  const authorization = window.localStorage.getItem('token');
+  const headers = { authorization };
+  const response = await axios.get(`${baseUrl}/music/playlist/public?page=${page}`, { headers });
+  return response.data;
+}
+
 export const publishPlaylist = async (playlistId) => {
   const authorization = window.localStorage.getItem('token');
   const headers = { authorization };
-  const response = await axios.put(`${baseUrl}/music/playlis/publish/${playlistId}`, {}, { headers });
+  const response = await axios.put(`${baseUrl}/music/playlist/publish/${playlistId}`, {}, { headers });
+  return response.data;
+}
+
+export const followPlaylist = async (playlistId) => {
+  const authorization = window.localStorage.getItem('token');
+  const headers = { authorization };
+  const response = await axios.pu(`${baseUrl}/music/playlist/follow/${playlistId}`, {}, { headers });
   return response.data;
 }
 
@@ -196,5 +196,12 @@ export const getAllListeners = async () => {
   const authorization = window.localStorage.getItem('token');
   const headers = { authorization };
   const response = await axios.get(`${baseUrl}/user/listeners/all`, { headers });
+  return response.data;
+}
+
+export const getSongsByMusicGenre = async (genreId, page) => {
+  const authorization = window.localStorage.getItem('token');
+  const headers = { authorization };
+  const response = await axios.get(`${baseUrl}/music/song/genre/${genreId}?page=${page}`, { headers });
   return response.data;
 }
