@@ -5,7 +5,7 @@ export const GenreSongsPageContainer = styled.div`
   padding: 1rem;
   grid-row: 2 / span 1;
 `
-export const QueryResultWrapper = styled.div`
+export const ResultWrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;

@@ -11,7 +11,12 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  Divider
+  Divider,
+  Menu,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions
 } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 
@@ -21,7 +26,6 @@ export const PageContainer = styled.div`
   max-width: 420px;
   margin: 0 auto;
   background-color: #f7f7f7;
-  /* color: #a8bac5; */
   display: grid;
   grid-template-rows: 4rem 1fr 4rem;
   grid-template-columns: 1fr;
@@ -55,6 +59,16 @@ export const PageListItemText = styled(ListItemText)`
 export const PageListItemIcon = styled(ListItemIcon)`
 `
 export const PageDivider = styled(Divider)`
+`
+export const PageMenu = styled(Menu)`
+`
+export const PageDialog = styled(Dialog)`
+`
+export const PageDialogContent = styled(DialogContent)`
+`
+export const PageDialogContentText = styled(DialogContentText)`
+`
+export const PageDialogActions = styled(DialogActions)`
 `
 export const PagePagination = styled(Pagination)`
 `

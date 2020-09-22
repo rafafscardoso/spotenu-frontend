@@ -15,7 +15,11 @@ import {
   FormMenuItem,
   FormButton,
   FormInputAdornment,
-  FormIconButton
+  FormIconButton,
+  PageDialog,
+  PageDialogContent,
+  PageDialogContentText,
+  PageDialogActions,
 } from '../../style';
 
 import {
@@ -36,6 +40,8 @@ const CreateAlbumPage = () => {
   });
 
   const [genresList, setGenresList] = useState(undefined);
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState(undefined);
 
   const { name, firstGenre, secondGenre, thirdGenre } = form;
 
@@ -73,6 +79,14 @@ const CreateAlbumPage = () => {
       history.push('/album/band');
     } catch (error) {
       console.error(error.response);
+      if (error.response.status === 401) {
+        setMessage('Acessível apenas para artista');
+        setShowMessage(true);
+      }
+      if (error.response.data.message === 'Music genre invalid') {
+        setMessage('Gênero musical inválido');
+        setShowMessage(true);
+      }
     }
   }
 
@@ -172,6 +186,16 @@ const CreateAlbumPage = () => {
           </form>
         </CreateAlbumPageContainer>
       : <Loading />}
+      <PageDialog open={showMessage} onClose={() => setShowMessage(false)} >
+        <PageDialogContent>
+          <PageDialogContentText>{message}</PageDialogContentText>
+        </PageDialogContent>
+        <PageDialogActions>
+          <FormButton onClick={() => setShowMessage(false)} >
+            Ok
+          </FormButton>
+        </PageDialogActions>
+      </PageDialog>
       <Footer />
     </PageContainer>
   );

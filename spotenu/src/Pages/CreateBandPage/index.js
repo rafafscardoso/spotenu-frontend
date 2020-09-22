@@ -12,7 +12,11 @@ import {
   FormTextField,
   FormButton,
   FormInputAdornment,
-  FormIconButton
+  FormIconButton,
+  PageDialog,
+  PageDialogContent,
+  PageDialogContentText,
+  PageDialogActions
 } from '../../style';
 
 import {
@@ -35,6 +39,7 @@ const CreateBandPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(true);
+  const [showMessage, setShowMessage] = useState(false);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -54,7 +59,7 @@ const CreateBandPage = () => {
     try {
       await createBand(body);
       resetForm();
-      window.alert('Banda criada com sucesso, aguardando aprovação');
+      setShowMessage(true);
     } catch (error) {
       console.error(error.response);
     }
@@ -178,6 +183,16 @@ const CreateBandPage = () => {
           </FormButton>
         </div>
       </CreateBandPageContainer>
+      <PageDialog open={showMessage} onClose={() => setShowMessage(false)} >
+        <PageDialogContent>
+          <PageDialogContentText>Banda criada com sucesso, aguardando aprovação</PageDialogContentText>
+        </PageDialogContent>
+        <PageDialogActions>
+          <FormButton onClick={() => setShowMessage(false)} >
+            Ok
+          </FormButton>
+        </PageDialogActions>
+      </PageDialog>
       <Footer />
     </PageContainer>
   );

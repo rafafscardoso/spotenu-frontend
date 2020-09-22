@@ -2,14 +2,16 @@ import React from 'react';
 import { useHistory } from 'react-router';
 
 import { AlbumIcon } from '../../../../icons';
+import {
+  PageList,
+  PageListItem,
+  PageListItemIcon,
+  PageListItemText,
+  PageDivider
+} from '../../../../style';
 
 import {
-  HomePageContainer,
-  HomeList,
-  HomeListItem,
-  HomeListItemIcon,
-  HomeListItemText,
-  HomeDivider
+  HomePageContainer
 } from '../../style';
 
 const HomeBand = () => {
@@ -18,15 +20,15 @@ const HomeBand = () => {
 
   return (
     <HomePageContainer>
-      <HomeList>
-        <HomeListItem button onClick={() => history.push('/album/band')} >
-          <HomeListItemIcon>
+      <PageList>
+        <PageListItem button onClick={() => history.push('/album/band')} >
+          <PageListItemIcon>
             <AlbumIcon color='secondary' />
-          </HomeListItemIcon>
-          <HomeListItemText primary='Álbuns' />
-        </HomeListItem>
-        <HomeDivider />
-      </HomeList>
+          </PageListItemIcon>
+          <PageListItemText primary='Meus Álbuns' />
+        </PageListItem>
+        <PageDivider />
+      </PageList>
     </HomePageContainer>
   )
 };

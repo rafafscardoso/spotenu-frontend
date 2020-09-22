@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Header from '../../components/Header';
@@ -6,15 +6,21 @@ import Footer from '../../components/Footer';
 import Loading from '../../components/Loading';
 
 import { usePrivatePage } from '../../hooks';
+import { AlbumContext } from '../../contexts';
 import { getAlbumsByBand } from '../../request';
 import { AddIcon, ArrowFwdIcon } from '../../icons';
 import {
   PageContainer,
+  FormButton,
   PageList,
   PageListItem,
   PageListItemText,
   PageListItemIcon,
-  PageDivider
+  PageDivider,
+  PageDialog,
+  PageDialogContent,
+  PageDialogContentText,
+  PageDialogActions,
 } from '../../style';
 
 import {
@@ -27,7 +33,10 @@ const BandAlbumsPage = () => {
 
   const history = useHistory();
 
-  const [albums, setAlbums] = useState(undefined);
+  const { albums, setAlbums } = useContext(AlbumContext);
+
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState(undefined);
 
   useEffect(() => {
     getAlbums();
@@ -39,6 +48,10 @@ const BandAlbumsPage = () => {
       setAlbums(response.albums);
     } catch (error) {
       console.error(error.response);
+      if (error.response.status === 401) {
+        setMessage('Acessível apenas para artista');
+        setShowMessage(true);
+      }
     }
   }
 
@@ -67,6 +80,16 @@ const BandAlbumsPage = () => {
           </PageList> 
         </BandAlbumsPageContainer>
       : <Loading />}
+      <PageDialog open={showMessage} onClose={() => setShowMessage(false)} >
+        <PageDialogContent>
+          <PageDialogContentText>{message}</PageDialogContentText>
+        </PageDialogContent>
+        <PageDialogActions>
+          <FormButton onClick={() => setShowMessage(false)} >
+            Ok
+          </FormButton>
+        </PageDialogActions>
+      </PageDialog>
       <Footer />
     </PageContainer>
   );

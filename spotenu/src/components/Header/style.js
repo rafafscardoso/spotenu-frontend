@@ -14,23 +14,19 @@ export const HeaderContainer = styled.header`
     height: 100%;
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: 2rem 1fr 4rem;
+    grid-template-columns: 1fr 1fr;
     > div {
       display: flex;
-      justify-content: center;
       align-items: center;
     }
     > div:first-of-type {
       grid-row: 1 / span 1;
       grid-column: 1 / span 1;
+      justify-self: flex-start;
     }
     > div:nth-of-type(2) {
       grid-row: 1 / span 1;
       grid-column: 2 / span 1;
-    }
-    > div:nth-of-type(3) {
-      grid-row: 1 / span 1;
-      grid-column: 3 / span 1;
       justify-self: flex-end;
     }
   }

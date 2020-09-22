@@ -47,9 +47,6 @@ const Header = () => {
           }
         </div>
         <div>
-          logo
-        </div>
-        <div>
           {profile &&
             <HeaderAvatar >{avatar()}</HeaderAvatar>
           }

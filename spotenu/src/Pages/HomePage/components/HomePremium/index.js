@@ -1,15 +1,17 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 
-import { SearchIcon, PlaylistIcon } from '../../../../icons';
+import { PlaylistIcon } from '../../../../icons';
+import {
+  PageList,
+  PageListItem,
+  PageListItemIcon,
+  PageListItemText,
+  PageDivider
+} from '../../../../style';
 
 import {
-  HomePageContainer,
-  HomeList,
-  HomeListItem,
-  HomeListItemIcon,
-  HomeListItemText,
-  HomeDivider
+  HomePageContainer
 } from '../../style';
 
 const HomePremium = () => {
@@ -18,22 +20,22 @@ const HomePremium = () => {
 
   return (
     <HomePageContainer>
-      <HomeList>
-        <HomeListItem button onClick={() => history.push('/search')} >
-          <HomeListItemIcon>
-            <SearchIcon color='secondary' />
-          </HomeListItemIcon>
-          <HomeListItemText primary='Busca' />
-        </HomeListItem>
-        <HomeDivider />
-        <HomeListItem button onClick={() => history.push('/playlist/user')} >
-          <HomeListItemIcon>
+      <PageList>
+        <PageListItem button onClick={() => history.push('/playlist/user')} >
+          <PageListItemIcon>
             <PlaylistIcon color='secondary' />
-          </HomeListItemIcon>
-          <HomeListItemText primary='Playlists' />
-        </HomeListItem>
-        <HomeDivider />
-      </HomeList>
+          </PageListItemIcon>
+          <PageListItemText primary='Minhas Playlists' />
+        </PageListItem>
+        <PageDivider />
+        <PageListItem button onClick={() => history.push('/playlist/public')} >
+          <PageListItemIcon>
+            <PlaylistIcon color='secondary' />
+          </PageListItemIcon>
+          <PageListItemText primary='Playlists Públicas' />
+        </PageListItem>
+        <PageDivider />
+      </PageList>
     </HomePageContainer>
   )
 };

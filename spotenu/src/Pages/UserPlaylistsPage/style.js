@@ -6,10 +6,18 @@ export const UserPlaylistsPageContainer = styled.div`
   grid-row: 2 / span 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  > form {
-    width: 100%;
+  justify-content: space-between;
+  > div {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    > form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  > :nth-child(2) {
+    align-self: center;
   }
 `

@@ -17,6 +17,10 @@ import {
   Edit,
   Delete,
   MonetizationOn,
+  Close,
+  LibraryAdd,
+  LibraryAddCheck,
+  MoreVert,
   HomeOutlined,
   SearchOutlined,
   PersonOutlined
@@ -55,6 +59,14 @@ export const EditIcon = styled(Edit)`
 export const DeleteIcon = styled(Delete)`
 `
 export const UpgradeIcon = styled(MonetizationOn)`
+`
+export const CloseIcon = styled(Close)`
+`
+export const AddPlaylistIcon = styled(LibraryAdd)`
+`
+export const PlaylistAddedIcon = styled(LibraryAddCheck)`
+`
+export const MenuIcon = styled(MoreVert)`
 `
 export const HomeOutIcon = styled(HomeOutlined)`
 `

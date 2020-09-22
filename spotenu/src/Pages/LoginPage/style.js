@@ -11,7 +11,7 @@ export const LoginPageContainer = styled.form`
     display: flex;
     flex-direction: column;
     > p {
-      color: #f6af56;
+      color: #45525b;
       align-self: flex-end;
       margin: 1rem 0 0 0;
       font-size: .75rem;
@@ -19,8 +19,8 @@ export const LoginPageContainer = styled.form`
         text-decoration: underline;
         :hover {
           cursor: pointer;
-          color: #45525b;
-          background-color: #f47d1f;
+          color: #f7f7f7;
+          background-color: #45525b;
           text-decoration: none;
         }
       }

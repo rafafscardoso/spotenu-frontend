@@ -4,10 +4,11 @@ import { useHistory } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Loading from '../../components/Loading';
+import SongDetail from '../../components/SongDetail';
 
-import { usePrivatePage } from '../../hooks';
-import { getSongsByQuery, getAllMusicGenres } from '../../request';
-import { QueryContext, BrowseContext, GenreContext } from '../../contexts';
+import { usePrivatePage, useForm } from '../../hooks';
+import { getSongsByQuery, getAllMusicGenres, getAllPlaylistsByUser } from '../../request';
+import { ProfileContext, GenreContext, PlaylistContext } from '../../contexts';
 import { SearchIcon, CancelIcon, ArrowFwdIcon } from '../../icons';
 import {
   PageContainer,
@@ -15,15 +16,20 @@ import {
   FormTextField,
   FormInputAdornment,
   FormIconButton,
+  FormButton,
   PageList,
   PageListItem,
   PageListItemText,
+  PageDialog,
+  PageDialogContent,
+  PageDialogContentText,
+  PageDialogActions,
   PagePagination
 } from '../../style';
 
 import {
   SearchPageContainer,
-  QueryResultWrapper
+  ResultWrapper
 } from './style';
 
 const SearchPage = () => {
@@ -32,17 +38,36 @@ const SearchPage = () => {
 
   const history = useHistory();
 
-  const { querySongs, setQuerySongs, queryCount, setQueryCount, queryPage, setQueryPage, form, onChange, resetForm } = useContext(QueryContext);
-  const { setBrowseSongs } = useContext(BrowseContext);
+  const { form, onChange, resetForm } = useForm({
+    query: ''
+  });
+
+  const { profile } = useContext(ProfileContext);
   const { musicGenres, setMusicGenres } = useContext(GenreContext);
+  const { setPlaylists } = useContext(PlaylistContext);
   
+  const [songs, setSongs] = useState(undefined);
+  const [count, setCount] = useState(0);
+  const [page, setPage] = useState(1);
+
   const [isQueried, setIsQueried] = useState(false);
+  const [showSongDetail, setShowSongDetail] = useState(false);
+  const [songDetailId, setSongDetailId] = useState(undefined);
+
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState(undefined);
 
   useEffect(() => {
     if (!musicGenres) {
       getGenres();
     }
   }, [setMusicGenres]);
+
+  useEffect(() => {
+    if (profile.role.toLowerCase() === 'premium') {
+      getPlaylists();
+    }
+  }, [setPlaylists]);
 
   const getGenres = async () => {
     try {
@@ -53,6 +78,19 @@ const SearchPage = () => {
     }
   }
 
+  const getPlaylists = async () => {
+    try {
+      const response = await getAllPlaylistsByUser(0);
+      setPlaylists(response.playlists);
+    } catch (error) {
+      console.error(error.response);
+      if (error.response.status === 401) {
+        setMessage('Acessível apenas para usuário premium');
+        setShowMessage(true);
+      }
+    }
+  }
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
@@ -60,33 +98,42 @@ const SearchPage = () => {
   };
 
   const handleChange = (event, value) => {
-    setQueryPage(value);
-    setQuerySongs(undefined);
+    setSongs(undefined);
+    setPage(value);
     submitSongsByQuery(value);
   }
 
   const submitSongsByQuery = async (page) => {
     try {
       const response = await getSongsByQuery(form.query, page);
-      setQueryCount(Math.ceil(response.quantity / 10));
-      setQuerySongs(response.songs);
+      setCount(Math.ceil(response.quantity / 10));
+      setSongs(response.songs);
     } catch (error) {
       console.error(error.response);
+      if (error.response.status === 401) {
+        setMessage('Acessível apenas para ouvintes');
+        setShowMessage(true);
+      }
     }
   };
 
   const submitQuery = (event) => {
     event.preventDefault();
     setIsQueried(true);
-    submitSongsByQuery(queryPage);
+    submitSongsByQuery(page);
   }
 
   const clearQuery = () => {
     resetForm();
     setIsQueried(false);
-    setQuerySongs(undefined);
-    setQueryCount(0);
-    setQueryPage(1);
+    setSongs(undefined);
+    setCount(0);
+    setPage(1);
+  }
+
+  const goToSongDetail = (songId) => {
+    setSongDetailId(songId);
+    setShowSongDetail(true);
   }
 
   return (
@@ -125,28 +172,28 @@ const SearchPage = () => {
               />
             </FormFormControl>
           </form>
-          {querySongs ? (
-            querySongs.length ? (
-              <QueryResultWrapper>
+          {songs ? (
+            songs.length ? (
+              <ResultWrapper>
                 <PageList>
-                  {querySongs.map((item) => {
+                  {songs.map((item) => {
                     const { id, name } = item;
                     return (
-                      <PageListItem key={id} onClick={() => history.push(`/song/${id}`)} >
+                      <PageListItem key={id} button onClick={() => goToSongDetail(id)} >
                         <PageListItemText primary={name} />
                         <ArrowFwdIcon color='primary' />
                       </PageListItem>
                     )
                   })}
                 </PageList>
-                {queryCount && 
+                {count ?
                   <PagePagination 
-                    count={queryCount} 
-                    page={queryPage} 
+                    count={count} 
+                    page={page} 
                     onChange={handleChange} 
                   />
-                }
-              </QueryResultWrapper>
+                : <></>}
+              </ResultWrapper>
             ) : (
               <div>{'Não encontramos nada :('}</div>
             )
@@ -157,10 +204,7 @@ const SearchPage = () => {
               {musicGenres.map((item) => {
                 const { id, name } = item;
                 return (
-                  <PageListItem key={id} onClick={() => {
-                    setBrowseSongs(undefined);
-                    history.push(`/genre/${id}`);
-                  }} >
+                  <PageListItem key={id} button onClick={() => history.push(`/genre/${id}`)} >
                     <PageListItemText primary={name} />
                     <ArrowFwdIcon color='primary' />
                   </PageListItem>
@@ -170,6 +214,17 @@ const SearchPage = () => {
           ))}
         </SearchPageContainer> 
       : <Loading />} 
+      {showSongDetail && <SongDetail songId={songDetailId} control={{ showSongDetail, setShowSongDetail }} />}
+      <PageDialog open={showMessage} onClose={() => setShowMessage(false)} >
+        <PageDialogContent>
+          <PageDialogContentText>{message}</PageDialogContentText>
+        </PageDialogContent>
+        <PageDialogActions>
+          <FormButton onClick={() => setShowMessage(false)} >
+            Ok
+          </FormButton>
+        </PageDialogActions>
+      </PageDialog>
       <Footer />
     </PageContainer>
   );

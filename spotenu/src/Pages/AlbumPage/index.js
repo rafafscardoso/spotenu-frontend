@@ -6,8 +6,8 @@ import Footer from '../../components/Footer';
 import Loading from '../../components/Loading';
 
 import { usePrivatePage, useForm } from '../../hooks';
-import { getAlbumById, createSong } from '../../request';
-import { AddIcon, CancelIcon, ArrowFwdIcon } from '../../icons';
+import { getAlbumById, createSong, deleteAlbum } from '../../request';
+import { AddIcon, CancelIcon, ArrowFwdIcon, DeleteIcon } from '../../icons';
 import {
   PageContainer,
   PageList,
@@ -19,7 +19,11 @@ import {
   FormTextField,
   FormButton,
   FormInputAdornment,
-  FormIconButton
+  FormIconButton,
+  PageDialog,
+  PageDialogContent,
+  PageDialogContentText,
+  PageDialogActions,
 } from '../../style';
 
 import {
@@ -41,6 +45,8 @@ const AlbumPage = () => {
   const [album, setAlbum] = useState(undefined);
   const [showCreateSong, setShowCreateSong] = useState(false);
   const [update, setUpdate] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState(undefined);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -58,6 +64,14 @@ const AlbumPage = () => {
       setAlbum(response.album);
     } catch (error) {
       console.error(error.response);
+      if (error.response.status === 401) {
+        setMessage('Não acessível para administrador');
+        setShowMessage(true);
+      }
+      if (error.response.status === 404) {
+        setMessage('Álbum não encontrado');
+        setShowMessage(true);
+      }
     }
   }
 
@@ -73,6 +87,43 @@ const AlbumPage = () => {
       resetForm();
     } catch (error) {
       console.error(error.response);
+      if (error.response.status === 401) {
+        setMessage('Acessível apenas para artista');
+        setShowMessage(true);
+      }
+      if (error.response.status === 404) {
+        setMessage('Álbum não encontrado');
+        setShowMessage(true);
+      }
+      if (error.response.data.message === 'Album was not created by this band') {
+        setMessage('Álbum não foi criado por esta banda');
+        setShowMessage(true);
+      }
+      if (error.response.data.message === 'Song already exists in this album') {
+        setMessage('Música já existente neste álbum');
+        setShowMessage(true);
+      }
+    }
+  }
+
+  const submitDeleteAlbum = async (albumId) => {
+    try {
+      await deleteAlbum(albumId);
+      history.push('/album/band');
+    } catch (error) {
+      console.error(error.response);
+      if (error.response.status === 401) {
+        setMessage('Acessível apenas para artista');
+        setShowMessage(true);
+      }
+      if (error.response.status === 404) {
+        setMessage('Álbum não encontrado');
+        setShowMessage(true);
+      }
+      if (error.response.data.message === 'Album was not created by this band') {
+        setMessage('Álbum não foi criado por esta banda');
+        setShowMessage(true);
+      }
     }
   }
 
@@ -96,9 +147,14 @@ const AlbumPage = () => {
       {album ?
         <AlbumPageContainer>
           <div>
-            <h3>{album.name}</h3>
-            <h4>{album.creatorBandName}</h4>
-            <p>{musicGenresToString()}</p>
+            <div>
+              <h3>Nome: {album.name}</h3>
+              <h4>Artista: {album.creatorBandName}</h4>
+              <p>Gênero: {musicGenresToString()}</p>
+            </div>
+            <FormIconButton onClick={() => submitDeleteAlbum(album.id)} >
+              <DeleteIcon />
+            </FormIconButton>
           </div>
           <PageDivider />
           {showCreateSong && (
@@ -156,7 +212,7 @@ const AlbumPage = () => {
             {album.songs.map((item) => {
               const { id, name } = item;
               return (
-                <PageListItem key={id} onClick={() => history.push(`/song/${id}`)} >
+                <PageListItem key={id} button onClick={() => history.push(`/song/${id}`)} >
                   <PageListItemText primary={name} />
                   <ArrowFwdIcon color='primary' />
                 </PageListItem>
@@ -165,6 +221,16 @@ const AlbumPage = () => {
           </PageList>
         </AlbumPageContainer>
       : <Loading />}
+      <PageDialog open={showMessage} onClose={() => setShowMessage(false)} >
+        <PageDialogContent>
+          <PageDialogContentText>{message}</PageDialogContentText>
+        </PageDialogContent>
+        <PageDialogActions>
+          <FormButton onClick={() => setShowMessage(false)} >
+            Ok
+          </FormButton>
+        </PageDialogActions>
+      </PageDialog>
       <Footer />
     </PageContainer>
   )

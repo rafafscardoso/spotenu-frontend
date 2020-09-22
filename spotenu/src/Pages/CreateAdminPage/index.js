@@ -12,7 +12,11 @@ import {
   FormTextField,
   FormButton,
   FormInputAdornment,
-  FormIconButton
+  FormIconButton,
+  PageDialog,
+  PageDialogContent,
+  PageDialogContentText,
+  PageDialogActions
 } from '../../style';
 
 import {
@@ -34,6 +38,8 @@ const CreateAdminPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(true);
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState(undefined);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -53,8 +59,14 @@ const CreateAdminPage = () => {
     try {
       await createAdmin(body);
       resetForm();
+      setShowMessage(true);
+      setMessage('Administrador criado com sucesso');
     } catch (error) {
       console.error(error.response);
+      if (error.response.status === 401) {
+        setShowMessage(true);
+        setMessage('Accessível apenas para administrador');
+      }
     }
   }
 
@@ -164,6 +176,16 @@ const CreateAdminPage = () => {
           </FormButton>
         </div>
       </CreateAdminPageContainer>
+      <PageDialog open={showMessage} onClose={() => setShowMessage(false)} >
+        <PageDialogContent>
+          <PageDialogContentText>{message}</PageDialogContentText>
+        </PageDialogContent>
+        <PageDialogActions>
+          <FormButton onClick={() => setShowMessage(false)} >
+            Ok
+          </FormButton>
+        </PageDialogActions>
+      </PageDialog>
       <Footer />
     </PageContainer>
   );

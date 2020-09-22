@@ -16,7 +16,11 @@ import {
   FormIconButton,
   PageList,
   PageListItem,
-  PageListItemText
+  PageListItemText,
+  PageDialog,
+  PageDialogContent,
+  PageDialogContentText,
+  PageDialogActions,
 } from '../../style';
 
 import {
@@ -33,6 +37,8 @@ const MusicGenrePage = () => {
 
   const [musicGenres, setMusicGenres] = useState(undefined);
   const [update, setUpdate] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState(undefined);
 
   useEffect(() => {
     getGenres();
@@ -62,8 +68,18 @@ const MusicGenrePage = () => {
       await createMusicGenre(body);
       setUpdate(!update);
       resetForm();
+      setMessage('Gênero musical criado com sucesso');
+      setShowMessage(true);
     } catch (error) {
       console.error(error.response);
+      if (error.response.status === 401) {
+        setMessage('Acessível apenas para administrador');
+        setShowMessage(true);
+      }
+      if (error.response.data.message === 'Music genre has already been created') {
+        setMessage('Gênero musical já existente');
+        setShowMessage(true);
+      }
     }
   }
 
@@ -116,6 +132,16 @@ const MusicGenrePage = () => {
           </PageList>
         </MusicGenrePageContainer> 
       : <Loading />}
+      <PageDialog open={showMessage} onClose={() => setShowMessage(false)} >
+        <PageDialogContent>
+          <PageDialogContentText>{message}</PageDialogContentText>
+        </PageDialogContent>
+        <PageDialogActions>
+          <FormButton onClick={() => setShowMessage(false)} >
+            Ok
+          </FormButton>
+        </PageDialogActions>
+      </PageDialog>
       <Footer />
     </PageContainer>
   );

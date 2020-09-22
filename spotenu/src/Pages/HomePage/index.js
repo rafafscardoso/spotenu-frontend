@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import Loading from '../../components/Loading';
 
 import { usePrivatePage } from '../../hooks';
 import { ProfileContext } from '../../contexts';
@@ -39,7 +40,7 @@ const HomePage = () => {
   return (
     <PageContainer>
       <Header />
-      {profile ? profileHome() : <></>}
+      {profile ? profileHome() : <Loading />}
       <Footer />
     </PageContainer>
   );

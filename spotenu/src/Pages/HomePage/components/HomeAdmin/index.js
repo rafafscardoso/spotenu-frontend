@@ -2,14 +2,16 @@ import React from 'react';
 import { useHistory } from 'react-router';
 
 import { MusicIcon, AdminIcon, ApproveIcon, PaymentIcon } from '../../../../icons';
+import {
+  PageList,
+  PageListItem,
+  PageListItemIcon,
+  PageListItemText,
+  PageDivider
+} from '../../../../style';
 
 import {
-  HomePageContainer,
-  HomeList,
-  HomeListItem,
-  HomeListItemIcon,
-  HomeListItemText,
-  HomeDivider,
+  HomePageContainer
 } from '../../style';
 
 const HomeAdmin = () => {
@@ -18,36 +20,36 @@ const HomeAdmin = () => {
 
   return (
     <HomePageContainer>
-      <HomeList>
-        <HomeListItem button onClick={() => history.push('/music/genre')} >
-          <HomeListItemIcon>
+      <PageList>
+        <PageListItem button onClick={() => history.push('/music/genre')} >
+          <PageListItemIcon>
             <MusicIcon color='secondary' />
-          </HomeListItemIcon>
-          <HomeListItemText primary='Gêneros musicais' />
-        </HomeListItem>
-        <HomeDivider />
-        <HomeListItem button onClick={() => history.push('/create/admin')} >
-          <HomeListItemIcon>
+          </PageListItemIcon>
+          <PageListItemText primary='Gêneros musicais' />
+        </PageListItem>
+        <PageDivider />
+        <PageListItem button onClick={() => history.push('/create/admin')} >
+          <PageListItemIcon>
             <AdminIcon color='secondary' />
-          </HomeListItemIcon>
-          <HomeListItemText primary='Criar um administrador' />
-        </HomeListItem>
-        <HomeDivider />
-        <HomeListItem button onClick={() => history.push('/approve/band')} >
-          <HomeListItemIcon>
+          </PageListItemIcon>
+          <PageListItemText primary='Criar um administrador' />
+        </PageListItem>
+        <PageDivider />
+        <PageListItem button onClick={() => history.push('/approve/band')} >
+          <PageListItemIcon>
             <ApproveIcon color='secondary' />
-          </HomeListItemIcon>
-          <HomeListItemText primary='Aprovar uma banda' />
-        </HomeListItem>
-        <HomeDivider />
-        <HomeListItem button onClick={() => history.push('/update')} >
-          <HomeListItemIcon>
+          </PageListItemIcon>
+          <PageListItemText primary='Aprovar uma banda' />
+        </PageListItem>
+        <PageDivider />
+        <PageListItem button onClick={() => history.push('/upgrade')} >
+          <PageListItemIcon>
             <PaymentIcon color='secondary' />
-          </HomeListItemIcon>
-          <HomeListItemText primary='Tornar um usuário free em um premium' />
-        </HomeListItem>
-        <HomeDivider />
-      </HomeList>
+          </PageListItemIcon>
+          <PageListItemText primary='Tornar um usuário premium' />
+        </PageListItem>
+        <PageDivider />
+      </PageList>
     </HomePageContainer>
   )
 };

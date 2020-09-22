@@ -13,7 +13,11 @@ import {
   FormTextField,
   FormButton,
   FormInputAdornment,
-  FormIconButton
+  FormIconButton,
+  PageDialog,
+  PageDialogContent,
+  PageDialogContentText,
+  PageDialogActions
 } from '../../style';
 
 import {
@@ -32,6 +36,9 @@ const LoginPage = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [isPasswordCorrect, setIsPasswordCorrect] = useState(true);
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState(undefined);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -50,6 +57,19 @@ const LoginPage = () => {
       history.push('/home');
     } catch (error) {
       console.error(error.response);
+      if (error.response.data.message.toLowerCase() === 'incorrect password') {
+        setIsPasswordCorrect(false);
+      }
+      if (error.response.status === 401) {
+        setMessage('Artista deve ser aprovado para poder acessar');
+        setShowMessage(true);
+        resetForm();
+      }
+      if (error.response.status === 404) {
+        setMessage('Usuário não encontrado');
+        setShowMessage(true);
+        resetForm();
+      }
     }
   }
 
@@ -80,6 +100,8 @@ const LoginPage = () => {
               variant='outlined'
               color='primary'
               required
+              error={!isPasswordCorrect}
+              helperText={isPasswordCorrect ? null : 'Senha inválida'}
               InputProps={{
                 endAdornment: (
                   <FormInputAdornment position='end' >
@@ -102,6 +124,16 @@ const LoginPage = () => {
           <p>É um artista? <span onClick={() => history.push('/create/band')} >Clique aqui</span></p>
         </div>
       </LoginPageContainer>
+      <PageDialog open={showMessage} onClose={() => setShowMessage(false)} >
+        <PageDialogContent>
+          <PageDialogContentText>{message}</PageDialogContentText>
+        </PageDialogContent>
+        <PageDialogActions>
+          <FormButton onClick={() => setShowMessage(false)} >
+            Ok
+          </FormButton>
+        </PageDialogActions>
+      </PageDialog>
       <Footer />
     </PageContainer>
   );

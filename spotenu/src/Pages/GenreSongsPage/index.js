@@ -1,88 +1,118 @@
-import React, { useEffect, useContext } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Loading from '../../components/Loading';
+import SongDetail from '../../components/SongDetail';
 
 import { usePrivatePage } from '../../hooks';
-import { BrowseContext } from '../../contexts';
 import { getSongsByMusicGenre } from '../../request';
 import { ArrowFwdIcon } from '../../icons';
 import {
   PageContainer,
+  FormButton,
   PageList,
   PageListItem,
   PageListItemText,
+  PageDialog,
+  PageDialogContent,
+  PageDialogContentText,
+  PageDialogActions,
   PagePagination
 } from '../../style';
 
 import {
   GenreSongsPageContainer,
-  QueryResultWrapper
+  ResultWrapper
 } from './style';
 
 const GenreSongsPage = () => {
 
   usePrivatePage();
 
-  const history = useHistory();
-
   const pathParams = useParams();
 
-  const { browseSongs, setBrowseSongs, browseCount, setBrowseCount, browsePage, setBrowsePage } = useContext(BrowseContext);
+  const [songs, setSongs] = useState(undefined);
+  const [count, setCount] = useState(0);
+  const [page, setPage] = useState(1);
+
+  const [showSongDetail, setShowSongDetail] = useState(false);
+  const [songDetailId, setSongDetailId] = useState(undefined);
+
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState(undefined);
 
   useEffect(() => {
-    getSongs(browsePage);
-  }, [setBrowseCount, setBrowseSongs, pathParams, browsePage]);
+    getSongs(page);
+  }, [setCount, setSongs, pathParams, page]);
 
   const getSongs = async (page) => {
     try {
       const response = await getSongsByMusicGenre(pathParams.genreId, page);
-      setBrowseCount(Math.ceil(response.quantity / 10));
-      setBrowseSongs(response.songs);
+      setCount(Math.ceil(response.quantity / 10));
+      setSongs(response.songs);
     } catch (error) {
       console.error(error.response);
+      if (error.response.status === 401) {
+        setMessage('Acessível apenas para ouvintes');
+        setShowMessage(true);
+      }
     }
   }
 
   const handleChange = (event, value) => {
-    setBrowsePage(value);
-    setBrowseSongs(undefined);
-    getSongs(value);
+    setSongs(undefined);
+    setPage(value);
+  }
+
+  const goToSongDetail = (songId) => {
+    setShowSongDetail(true);
+    setSongDetailId(songId);
   }
 
   return (
     <PageContainer>
       <Header />
-      {browseSongs ? 
+      {songs ? 
         <GenreSongsPageContainer>
-          {browseSongs.length ? (
-            <QueryResultWrapper>
+          {songs.length ? (
+            <ResultWrapper>
               <PageList>
-                {browseSongs.map((item) => {
+                {songs.map((item) => {
                   const { id, name } = item;
                   return (
-                    <PageListItem key={id} onClick={() => history.push(`/song/${id}`)} >
+                    <PageListItem key={id} onClick={() => goToSongDetail(id)} >
                       <PageListItemText primary={name} />
                       <ArrowFwdIcon color='primary' />
                     </PageListItem>
                   )
                 })}
               </PageList>
-              {browseCount && 
+              {count ?
                 <PagePagination 
-                  count={browseCount} 
-                  page={browsePage} 
+                  count={count} 
+                  page={page} 
                   onChange={handleChange} 
                 />
-              }
-            </QueryResultWrapper>
+              : <></>}
+            </ResultWrapper>
           ) : (
             <div>{'Não encontramos nada :('}</div>
           )}
         </GenreSongsPageContainer> 
       : <Loading />}
+      {showSongDetail && <SongDetail songId={songDetailId} control={{ showSongDetail, setShowSongDetail }} />}
+      <PageDialog open={showMessage} onClose={() => setShowMessage(false)} >
+        <PageDialogContent>
+          <PageDialogContentText>{message}</PageDialogContentText>
+        </PageDialogContent>
+        <PageDialogActions>
+          <FormButton onClick={() => setShowMessage(false)} >
+            Ok
+          </FormButton>
+        </PageDialogActions>
+      </PageDialog>
       <Footer />
     </PageContainer>
   )

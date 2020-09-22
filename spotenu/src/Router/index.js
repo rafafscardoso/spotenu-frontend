@@ -19,6 +19,7 @@ import UserPlaylistsPage from '../Pages/UserPlaylistsPage';
 import PlaylistPage from '../Pages/PlaylistPage';
 import SongPage from '../Pages/SongPage';
 import GenreSongsPage from '../Pages/GenreSongsPage';
+import PublicPlaylistsPage from '../Pages/PublicPlaylistsPage';
 
 const Router = () => {
   return (
@@ -39,6 +40,7 @@ const Router = () => {
         <Route exact path='/album/:albumId' component={AlbumPage} />
         <Route exact path='/profile' component={ProfilePage} />
         <Route exact path='/playlist/user' component={UserPlaylistsPage} />
+        <Route exact path='/playlist/public' component={PublicPlaylistsPage} />
         <Route exact path='/playlist/:playlistId' component={PlaylistPage} />
         <Route exact path='/song/:songId' component={SongPage} />
         <Route exact path='/genre/:genreId' component={GenreSongsPage} />

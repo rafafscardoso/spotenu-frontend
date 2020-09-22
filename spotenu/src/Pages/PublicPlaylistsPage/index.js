@@ -5,15 +5,15 @@ import Footer from '../../components/Footer';
 import Loading from '../../components/Loading';
 
 import { usePrivatePage } from '../../hooks';
-import { getBandsToApprove, approveBand } from '../../request';
-import { ApproveIcon } from '../../icons';
+import { getAllPublicPlaylists, followPlaylist } from '../../request';
+import { AddPlaylistIcon, PlaylistAddedIcon } from '../../icons';
 import {
   PageContainer,
-  FormIconButton,
-  FormButton,
-  PageList,
+  PageList, 
   PageListItem,
   PageListItemText,
+  FormIconButton,
+  FormButton,
   PageDialog,
   PageDialogContent,
   PageDialogContentText,
@@ -22,14 +22,14 @@ import {
 } from '../../style';
 
 import {
-  ApproveBandPageContainer
+  PublicPlaylistsPageContainer
 } from './style';
 
-const ApproveBandPage = () => {
+const PublicPlaylistsPage = () => {
 
   usePrivatePage();
 
-  const [bands, setBands] = useState(undefined);
+  const [playlists, setPlaylists] = useState(undefined);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
   const [update, setUpdate] = useState(false);
@@ -37,46 +37,41 @@ const ApproveBandPage = () => {
   const [message, setMessage] = useState(undefined);
 
   useEffect(() => {
-    getBands(page);
-  }, [setBands, update, page]);
+    getPlaylists(page);
+  }, [setPlaylists, update, page]);
 
-  const getBands = async (page) => {
+  const getPlaylists = async (page) => {
     try {
-      const response = await getBandsToApprove(page);
+      const response = await getAllPublicPlaylists(page);
+      setPlaylists(response.playlists);
       setCount(Math.ceil(response.quantity / 10));
-      setBands(response.bands);
     } catch (error) {
       console.error(error.response);
       if (error.response.status === 401) {
-        setMessage('Acessível apenas para administrador');
+        setMessage('Acessível apenas para usuário premium');
         setShowMessage(true);
       }
     }
   }
 
   const handleChange = (event, value) => {
+    setPlaylists(undefined);
     setPage(value);
-    setBands(undefined);
-    getBands(value);
   }
 
-  const submitApproveBand = async (bandId) => {
+  const submitFollowPlaylist = async (playlistId) => {
     try {
-      await approveBand(bandId);
+      await followPlaylist(playlistId);
       setUpdate(!update);
     } catch (error) {
       console.error(error.response);
       if (error.response.status === 401) {
-        setMessage('Acessível apenas para administrador');
+        setMessage('Acessível apenas para usuário premium');
         setShowMessage(true);
       }
-      if (error.response.status === 404) {
-        setMessage('Artista não encontrado');
-        setShowMessage(true);
-      }
-      if (error.response.data.message === 'Band has already been approved') {
-        setMessage('Artista já aprovado');
-        setShowMessage(true);
+      if (error.response.data.message === 'Playlist has not been published yet') {
+        setMessage('Playlist não foi publicada ainda');
+        setShowMessage(true); 
       }
     }
   }
@@ -84,32 +79,31 @@ const ApproveBandPage = () => {
   return (
     <PageContainer>
       <Header />
-      {bands ?
-        <ApproveBandPageContainer>
-          <div>
-            <h3>Artistas para serem aprovados</h3>
-            <PageList>
-              {bands.map((item) => {
-                const { id, name } = item;
-                return (
-                  <PageListItem key={id} >
-                    <PageListItemText primary={name} />
-                    <FormIconButton edge='end' onClick={() => submitApproveBand(id)} >
-                      <ApproveIcon />
+      {playlists ?
+        <PublicPlaylistsPageContainer>
+          <PageList>
+            {playlists.map((item) => {
+              const { id, name, userName, isFollowed } = item;
+              return (
+                <PageListItem key={id} >
+                  <PageListItemText primary={name} secondary={userName} />
+                  {isFollowed ? <PlaylistAddedIcon color='primary' /> : (
+                    <FormIconButton edge='end' onClick={() => submitFollowPlaylist(id)} >
+                      <AddPlaylistIcon color='secondary' />
                     </FormIconButton>
-                  </PageListItem>
-                )
-              })}
-            </PageList>
-          </div>
-          {count ? 
+                  )}
+                </PageListItem>
+              )
+            })}
+          </PageList>
+          {count ?
             <PagePagination 
               count={count}
               page={page}
               onChange={handleChange}
             />
           : <></>}
-        </ApproveBandPageContainer>
+        </PublicPlaylistsPageContainer>
       : <Loading />}
       <PageDialog open={showMessage} onClose={() => setShowMessage(false)} >
         <PageDialogContent>
@@ -124,6 +118,6 @@ const ApproveBandPage = () => {
       <Footer />
     </PageContainer>
   );
-}
+};
 
-export default ApproveBandPage;
+export default PublicPlaylistsPage;

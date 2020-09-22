@@ -18,11 +18,17 @@ import {
   FormTextField,
   FormButton,
   FormInputAdornment,
-  FormIconButton
+  FormIconButton,
+  PageDialog,
+  PageDialogContent,
+  PageDialogContentText,
+  PageDialogActions,
+  PagePagination
 } from '../../style';
 
 import {
-  PlaylistPageContainer
+  PlaylistPageContainer,
+  PlaylistWrapper
 } from './style';
 
 const PlaylistPage = () => {
@@ -37,19 +43,27 @@ const PlaylistPage = () => {
 
   const [playlist, setPlaylist] = useState(undefined);
   const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
   const [update, setUpdate] = useState(false);
   const [showEditPlaylist, setShowEditPlaylist] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState(undefined);
 
   useEffect(() => {
-    getPlaylist();
+    getPlaylist(page);
   }, [setPlaylist, update, pathParams.playlistId, page]);
 
-  const getPlaylist = async () => {
+  const getPlaylist = async (page) => {
     try {
       const response =  await getPlaylistById(pathParams.playlistId, page);
+      setCount(Math.ceil(response.playlist.quantity / 10));
       setPlaylist(response.playlist);
     } catch (error) {
       console.error(error.response);
+      if (error.response.status === 401) {
+        setMessage('Acessível apenas para usuário premium');
+        setShowMessage(true);
+      }
     }
   }
 
@@ -58,6 +72,12 @@ const PlaylistPage = () => {
 
     onChange(name, value);
   };
+
+  const handleChange = (event, value) => {
+    setPage(value);
+    setPlaylist(undefined);
+    getPlaylist(value);
+  }
 
   const submitEditPlaylist = async (event) => {
     event.preventDefault();
@@ -68,6 +88,10 @@ const PlaylistPage = () => {
       setShowEditPlaylist(false);
     } catch (error) {
       console.log(error.response);
+      if (error.response.data.message === 'Playlist is not followed by user') {
+        setMessage('Playlist não é seguida por usuário');
+        setShowMessage(true);
+      }
     }
   };
 
@@ -78,6 +102,18 @@ const PlaylistPage = () => {
       setUpdate(!update);
     } catch (error) {
       console.error(error.response);
+      if (error.response.status === 401) {
+        setMessage('Acessível apenas para usuário premium');
+        setShowMessage(true);
+      }
+      if (error.response.data.message === 'Playlist not created by user') {
+        setMessage('Playlist não foi criada pelo usuário');
+        setShowMessage(true); 
+      }
+      if (error.response.data.message === 'Playlist has already been published') {
+        setMessage('Playlist já foi publicada');
+        setShowMessage(true); 
+      }
     }
   }
 
@@ -88,15 +124,33 @@ const PlaylistPage = () => {
       setUpdate(!update);
     } catch (error) {
       console.error(error.response);
+      if (error.response.status === 401) {
+        setMessage('Acessível apenas para usuário premium');
+        setShowMessage(true);
+      }
+      if (error.response.data.message === 'Playlist is not followed by user') {
+        setMessage('Playlist não é seguida por usuário');
+        setShowMessage(true);
+      }
+      if (error.response.data.message === 'Song is not in this playlist') {
+        setMessage('Música não está nessa playlist');
+        setShowMessage(true);
+      }
     }
-  };
+  }
+
+  const clickEditButton = () => {
+    setShowEditPlaylist(true);
+    onChange('name', playlist.name);
+  }
 
   return (
     <PageContainer>
       <Header />
       {playlist ?
         <PlaylistPageContainer>
-            <div>
+          <div>
+            <PlaylistWrapper>
               {showEditPlaylist ? (
                 <form onSubmit={submitEditPlaylist} >
                   <FormFormControl>
@@ -141,10 +195,7 @@ const PlaylistPage = () => {
               ) : (
                 <div>
                   <h3>{playlist.name}</h3>
-                  <FormIconButton onClick={() => {
-                    setShowEditPlaylist(true);
-                    onChange('name', playlist.name);
-                  }} >
+                  <FormIconButton onClick={clickEditButton} >
                     <EditIcon />
                   </FormIconButton>
                 </div>
@@ -158,7 +209,7 @@ const PlaylistPage = () => {
                   </FormIconButton>
                 )}
               </div>
-            </div>
+            </PlaylistWrapper>
             <PageDivider />
             <PageList>
               {playlist.songs.map((item) => {
@@ -173,8 +224,26 @@ const PlaylistPage = () => {
                 )
               })}
             </PageList>
+          </div>
+          {count ? 
+            <PagePagination 
+              count={count}
+              page={page}
+              onChange={handleChange}
+            />
+          : <></>}
         </PlaylistPageContainer>
       : <Loading />}
+      <PageDialog open={showMessage} onClose={() => setShowMessage(false)} >
+        <PageDialogContent>
+          <PageDialogContentText>{message}</PageDialogContentText>
+        </PageDialogContent>
+        <PageDialogActions>
+          <FormButton onClick={() => setShowMessage(false)} >
+            Ok
+          </FormButton>
+        </PageDialogActions>
+      </PageDialog>
       <Footer />
     </PageContainer>
   );

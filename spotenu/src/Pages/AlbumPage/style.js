@@ -10,8 +10,13 @@ export const AlbumPageContainer = styled.div`
   > div {
     width: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
+    align-items: center;
+    > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
   }
   > form {
     width: 100%;

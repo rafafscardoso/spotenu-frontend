@@ -15,7 +15,11 @@ import {
   FormTextField,
   FormButton,
   FormInputAdornment,
-  FormIconButton
+  FormIconButton,
+  PageDialog,
+  PageDialogContent,
+  PageDialogContentText,
+  PageDialogActions,
 } from '../../style';
 
 import {
@@ -34,6 +38,8 @@ const ProfilePage = () => {
 
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [update, setUpdate] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState(undefined);
 
   const history = useHistory();
 
@@ -47,6 +53,15 @@ const ProfilePage = () => {
       setProfile(response.user);
     } catch (error) {
       console.error(error.response);
+      if (error.response.status === 404) {
+        setMessage('Usuário não encontrado');
+        setShowMessage(true);
+      }
+      if (error.response.status === 500) {
+        setMessage('Teve um problema no banco de dados, voltando para Home');
+        setShowMessage(true);
+        history.push('/home');
+      }
     }
   }
 
@@ -66,6 +81,11 @@ const ProfilePage = () => {
     } catch (error) {
       console.error(error.response);
     }
+  }
+
+  const clickEditButton = () => {
+    setShowEditProfile(true);
+    onChange('name', profile.name);
   }
 
   const logOut = () => {
@@ -124,10 +144,7 @@ const ProfilePage = () => {
             ) : (
               <div>
                 <h4>Nome: {profile.name}</h4>
-                <FormIconButton onClick={() => {
-                  setShowEditProfile(true);
-                  onChange('name', profile.name);
-                }} >
+                <FormIconButton onClick={clickEditButton} >
                   <EditIcon />
                 </FormIconButton>
               </div>
@@ -144,6 +161,16 @@ const ProfilePage = () => {
           </FormButton>
         </ProfilePageContainer>
       : <Loading />}
+      <PageDialog open={showMessage} onClose={() => setShowMessage(false)} >
+        <PageDialogContent>
+          <PageDialogContentText>{message}</PageDialogContentText>
+        </PageDialogContent>
+        <PageDialogActions>
+          <FormButton onClick={() => setShowMessage(false)} >
+            Ok
+          </FormButton>
+        </PageDialogActions>
+      </PageDialog>
       <Footer />
     </PageContainer>
   )
