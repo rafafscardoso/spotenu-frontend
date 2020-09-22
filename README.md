@@ -1,18 +1,10 @@
 # spotenu-frontend
 
 ## Stack
-Esse é um projeto de Frontend Web feito utilizando ReactJS, HTML e CSS e como gerenciador de pacotes do NodeJS o npm. Sobre a divisão dos arquivos, há dois grandes setores. Os `components` são os componentes em si do meu projeto (balão de fala, botão de enviar, inputs dos usuários e outros). Já os `Containers` são as páginas em si e podem ser pensadas como a união dos componentes para se mostrar na tela. 
+Esse é um projeto de Frontend Web feito utilizando ReactJS, HTML e CSS e como gerenciador de pacotes do NodeJS o npm.
 
 ## Sobre
-Esse foi um dos primeiros projetos que fiz em React.
-Ele consiste em uma página que permite ao usuário colocar seu nome e uma 
-mensagem que deseja enviar; e, então, essas informações aparecem na tela. 
-Além disso, se o usuário digitar "eu" (como remetente) a mensagem aparece 
-com um layout diferente (indicando que foi enviado pelo dono da conta). 
-Não há integrações com APIs externas nesse caso.## Instruções para rodar
-Por ser um projeto com ReactJS, há a necessidade do NodeJS. Com ele em 
-sua máquina, basta abrir o terminal e navegar até o repositório clonado e 
-rodar:
+Esse projeto consiste em uma aplicação com um tema sobre Música. São quatro perfis diferentes com acesso ao aplicativo, administrador, artista, usuário pagante e não pagante. Um administrador pode criar um outro administrador, adicionar gêneros musicais, aprovar uma banda que tenha feito o cadastro no aplicativo e transformar um usuário não pagante em um pagante. Um artista só tem acesso ao ser aprovado por um administrador, e uma vez com acesso, ele pode criar, editar e apagar um álbum, escolhendo ao menos um dos gêneros criados por um administrador, e adicionar, editar e apagar uma música nesse álbum. Tanto um usuário pagante quanto não pagante podem fazer uma busca de uma música por nome da mesma, do artista ou do álbum ou por gênero musical. Cabe apenas a um usuário pagante gerar, adicionar música, tornar pública e seguir uma playlist.
 
 1. `npm install` para instalar todas as dependências;
 1. `npm run start` para rodar localmente o projeto
