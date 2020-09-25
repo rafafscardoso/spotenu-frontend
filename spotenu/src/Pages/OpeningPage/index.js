@@ -17,7 +17,7 @@ const OpeningPage = () => {
 
   const goToLoginPage = () => {
     setTimeout(() => {
-      history.push('login');
+      history.push('/login');
     }, 5000);
   }
 
